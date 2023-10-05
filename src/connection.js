@@ -76,9 +76,6 @@ class Connection {
                 headers: {"User-Agent": USER_AGENT, "Cookie": "TSSESSIONID=" + this.tsessionID + ";"}
             }
         )
-
-        console.log(this.tsessionID)
-
     }
 
     handleMessage(event) {
@@ -88,32 +85,35 @@ class Connection {
         // grab the json data
         const data = JSON.parse(dataString)
         
-        var pending = this.pendingRequests[data.requestId]
+        var pending = this.pendingRequests[data.invocationId]
         if (pending) {
             pending.resolve(data)
-            delete this.pendingRequests[data.requestId]
+            delete this.pendingRequests[data.invocationId]
         }
     }
 
-    sendMessage(target, args) {
+    send(target, args) {
         // generate a random request ID
         const requestId = Math.floor(Math.random() * 1000000000)
 
         // create a promise to resolve when the response comes back
-        const promise = new Promise((resolve, reject) => {
-            this.pendingRequests[requestId] = { resolve, reject }
-        })
+        const promise = new Promise(async (resolve, reject) => {
+            this.pendingRequests[requestId.toString()] = { resolve, reject }
 
-        // send the message
-        fetch(this.baseURL + "?id=" + this.connectionToken, 
+            // send the message
+            await fetch(this.baseURL + "?id=" + this.connectionToken, 
             {
                 method: 'POST', 
                 body: `{"arguments":${JSON.stringify(args)},"invocationId":"${requestId}","target":"${target}","type":1}`, 
-                headers: {"User-Agent": ua, "Cookie": "TSSESSIONID=" + tsessionID + ";"}
-            }
-        )
+                headers: {"User-Agent": USER_AGENT, "Cookie": "TSSESSIONID=" + this.tsessionID + ";"}
+            })
+        })
 
         return promise
+    }
+
+    close() {
+        this.es.close()
     }
 
 }
