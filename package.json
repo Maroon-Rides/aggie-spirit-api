@@ -1,0 +1,24 @@
+{
+  "name": "aggiespirit",
+  "version": "1.0.0",
+  "description": "JS implementation of the Texas A&M Bus API",
+  "main": "src/index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "example": "node --openssl-config=openssl.cnf examples/example.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bwees/aggiespirit.git"
+  },
+  "author": "bwees",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bwees/aggiespirit/issues"
+  },
+  "homepage": "https://github.com/bwees/aggiespirit#readme",
+  "dependencies": {
+    "eventsource": "^2.0.2"
+  }
+}
