@@ -1,5 +1,8 @@
 import { MapConnection, TimetableConnection } from "./connection.js";
 
+/**
+ * The possible groups of routes to retrieve with getRoutes
+ */
 export const RouteGroup = {
     ON_CAMPUS: "OnCampus",
     OFF_CAMPUS: "OffCampus",
@@ -7,6 +10,12 @@ export const RouteGroup = {
     ALL: ["OnCampus", "OffCampus", "Gameday"]
 }
 
+/**
+ * Flattens the results from the API into a single array without unnecessary data
+ * If a single result is passed in, it is returned without modification
+ * @param {any} results 
+ * @returns merged results from the API
+ */
 function mergeResults(results) {
     var results_merged = []
 
@@ -21,6 +30,11 @@ function mergeResults(results) {
     return results_merged
 }
 
+/**
+ * Gets the busses under a specific group. Use the RouteGroup enum to specify the group
+ * @param {RouteGroup} group 
+ * @returns the busses under the group specified
+ */
 export async function getRoutes(group) {
     const connection = new MapConnection();
     await connection.connect();
@@ -41,18 +55,24 @@ export async function getRoutes(group) {
     return mergeResults(allRoutes)
 }
 
-export async function getRouteInfo(route) {
+/**
+ * Gets the extended route info for a given route key
+ * Includes: waypoints, stops, and route color
+ * @param {String} routeKey 
+ * @returns either an array of route info or a single route info object based on the routeKey
+ */
+export async function getRouteInfo(routeKey) {
     const connection = new MapConnection();
     await connection.connect();
 
     var routeInfo = []
 
-    if (!Array.isArray(route)) {
-        route = [route]
+    if (!Array.isArray(routeKey)) {
+        routeKey = [routeKey]
     }
 
-    route.forEach((route) => {
-        routeInfo.push(connection.send("GetPatternPaths", [route.key]))
+    routeKey.forEach((key) => {
+        routeInfo.push(connection.send("GetPatternPaths", [key]))
     })
 
     var allRouteInfo = await Promise.all(routeInfo)
@@ -60,5 +80,31 @@ export async function getRouteInfo(route) {
     connection.close()
 
     return mergeResults(allRouteInfo)
+}
+
+/**
+ * Gets the active busses on the given route name
+ * @param {String} routeName 
+ * @returns the busses and locations for the given route name
+ */
+export async function getRouteBusses(routeName) {
+    const connection = new MapConnection();
+    await connection.connect();
+
+    var busses = []
+
+    if (!Array.isArray(routeName)) {
+        routeName = [routeName]
+    }
+
+    routeName.forEach((routeName) => {
+        busses.push(connection.send("GetBuses", [routeName]))
+    })
+
+    var allBusses = await Promise.all(busses)
+
+    connection.close()
+
+    return mergeResults(allBusses)
 }
 
