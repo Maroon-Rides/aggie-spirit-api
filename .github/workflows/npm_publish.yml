@@ -6,7 +6,7 @@ on:
 
 jobs:
     release:
-        name: 🚀 release
+        name: 🚀 Release
         runs-on: ubuntu-latest
         steps:
           - name: 📚 Checkout
@@ -19,6 +19,6 @@ jobs:
               registry-url: https://registry.npmjs.org
                 
           - name: 🚀 Publish
-            uses: JS-DevTools/npm-publish@v2
-            with:
-              token: ${{ secrets.NPM_AUTH_TOKEN }}
+            run: npm publish --access public
+            env:
+              NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
