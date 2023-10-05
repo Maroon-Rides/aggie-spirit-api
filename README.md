@@ -2,7 +2,7 @@
 A JavaScript implementation of the Texas A&M Bus API
 
 ### To Install:
-`npm i aggiespirit`
+`npm i aggie-spirit-api`
 
 
 Possible integration with https://github.com/dagrejs/graphlib
