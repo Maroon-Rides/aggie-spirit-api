@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "JS implementation of the Texas A&M Bus API",
   "main": "src/index.js",
+  "files": [
+    "src"
+  ],
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -13,7 +16,7 @@
     "url": "git+https://github.com/bwees/aggiespirit.git"
   },
   "author": "bwees",
-  "license": "ISC",
+  "license": "Apache-2.0",
   "bugs": {
     "url": "https://github.com/bwees/aggiespirit/issues"
   },
