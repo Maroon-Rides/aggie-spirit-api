@@ -1,7 +1,7 @@
-import { MapConnection } from '../src/index.js';
+import { getRouteInfo, getRoutes, RouteGroup } from '../src/index.js';
 
-const mapConnection = new MapConnection();
-
-mapConnection.connect().then(() => {
-    console.log(mapConnection)
+getRoutes(RouteGroup.ALL).then((routes) => {
+    getRouteInfo(routes).then((routeInfo) => {
+        console.log(routeInfo)
+    })
 })
