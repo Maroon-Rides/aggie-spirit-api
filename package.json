@@ -1,5 +1,5 @@
 {
-  "name": "aggiespirit",
+  "name": "aggie-spirit-api",
   "version": "1.0.0",
   "description": "JS implementation of the Texas A&M Bus API",
   "main": "src/index.js",
