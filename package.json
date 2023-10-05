@@ -13,14 +13,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/bwees/aggiespirit.git"
+    "url": "git+https://github.com/bwees/aggie-spirit-api.git"
   },
   "author": "bwees",
   "license": "Apache-2.0",
   "bugs": {
-    "url": "https://github.com/bwees/aggiespirit/issues"
+    "url": "https://github.com/bwees/aggie-spirit-api/issues"
   },
-  "homepage": "https://github.com/bwees/aggiespirit#readme",
+  "homepage": "https://github.com/bwees/aggie-spirit-api#readme",
   "dependencies": {
     "eventsource": "^2.0.2"
   }
