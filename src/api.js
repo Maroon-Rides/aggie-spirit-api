@@ -1,4 +1,7 @@
 import { MapConnection, TimetableConnection } from "./connection.js";
+import moment from "moment";
+import DomParser from "dom-parser"
+
 
 /**
  * The possible groups of routes to retrieve with getRoutes
@@ -108,3 +111,73 @@ export async function getRouteBusses(routeName) {
     return mergeResults(allBusses)
 }
 
+/**
+ * Retrieves the timetable for the given route name and date
+ * @param {String} routeName name of the route to get the timetable for, can be an array of route names
+ * @param {Date} date date to get the timetable for, defaults to current date
+ * @returns the timetable(s) for the given route name and date
+ */
+export async function getTimetable(routeName, date = new Date()) {
+    const connection = new TimetableConnection();
+    await connection.connect();
+
+    var timetable = []
+
+    if (!Array.isArray(routeName)) {
+        routeName = [routeName]
+    }
+
+    // convert Date to momentjs object
+    date = moment(date).format("YYYY-MM-DD")
+
+    routeName.forEach((routeName) => {
+        timetable.push(connection.send("GetTimeTable", [routeName, date]))
+    })
+
+    var allTimetables = await Promise.all(timetable)
+    connection.close()
+
+    var mergedTimetables = []
+    allTimetables.forEach((result) => {
+        mergedTimetables = mergedTimetables.concat(result.result)
+    })
+
+
+    // start parsing the timetable HTML
+    var parser = new DomParser();
+
+    var returnTable = []
+
+    mergedTimetables.forEach((timetable) => {
+        var tFinal = []
+        timetable.jsonTimeTableList.forEach((table) => {
+            var dom = parser.parseFromString("<table id='table'>" + table.html + "</table>")
+            const t = dom.getElementsByTagName("table")[0]
+
+            // get all rows and cells from table
+            const rows = t.getElementsByTagName("tr")
+
+            var parsedTable = {}
+
+            var stops = rows[0].getElementsByTagName("th").map((stop) => {
+                parsedTable[stop.innerHTML] = []
+                return stop.innerHTML
+            })
+
+            for (var i=1; i < rows.length; i++) {
+                rows[i].getElementsByTagName("time").map((time, i) => {
+                    parsedTable[stops[i]].push(new Date(time.getAttribute("dateTime")))
+                })
+            }
+            tFinal.push(parsedTable)
+        })
+        returnTable.push(tFinal)
+    })
+
+    if (returnTable.length == 1) {
+        returnTable = returnTable[0]
+    }
+
+    return returnTable
+
+}
