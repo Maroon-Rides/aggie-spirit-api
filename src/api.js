@@ -115,7 +115,7 @@ export async function getRouteBusses(routeName) {
  * Retrieves the timetable for the given route name and date
  * @param {String} routeName name of the route to get the timetable for, can be an array of route names
  * @param {Date} date date to get the timetable for, defaults to current date
- * @returns the timetable(s) for the given route name and date
+ * @returns the timetable(s) for the given route name and date, if there is no timetable for the given date, an empty array is returned
  */
 export async function getTimetable(routeName, date = new Date()) {
     const connection = new TimetableConnection();
@@ -150,6 +150,8 @@ export async function getTimetable(routeName, date = new Date()) {
 
     mergedTimetables.forEach((timetable) => {
         var tFinal = []
+        if (timetable.jsonTimeTableList[0].html.includes("No Service Is Scheduled For This Date")) return tFinal
+
         timetable.jsonTimeTableList.forEach((table) => {
             var dom = parser.parseFromString("<table id='table'>" + table.html + "</table>")
             const t = dom.getElementsByTagName("table")[0]
