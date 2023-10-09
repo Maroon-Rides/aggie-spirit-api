@@ -87,7 +87,7 @@ class Connection {
         
         var pending = this.pendingRequests[data.invocationId]
         if (pending) {
-            pending.resolve(data)
+            pending.resolve(data.result)
             delete this.pendingRequests[data.invocationId]
         }
     }
