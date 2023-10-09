@@ -44,13 +44,15 @@ export async function getRoutesByGroup(groups, connection = new MapConnection(),
     for (var group in routeGroups) {
         routeGroups[group].forEach((route) => {
             route.routeInfo = getRouteInfo(route.key, connection, false)
+            route.patternPoints = getRoutePatternPoints(route.key, connection, false)
         })
     }
 
-    // resolve all .routeInfo promises
+    // resolve all extended data promises
     for (var group in routeGroups) {
         for (var route in routeGroups[group]) {
             routeGroups[group][route].routeInfo = await routeGroups[group][route].routeInfo
+            routeGroups[group][route].patternPoints = await routeGroups[group][route].patternPoints
         }
     }
 
@@ -71,6 +73,7 @@ export async function getRouteByName(routeName, connection = new MapConnection()
 
     var route = await connection.send("GetRoute", [routeName])
     route.routeInfo = await getRouteInfo(route.key, connection, false)
+    route.patternPoints = await getRoutePatternPoints(route.key, connection, false)
 
     if (handleConnection) connection.close()
 
@@ -92,6 +95,23 @@ export async function getRouteInfo(routeKey, connection = new MapConnection(), h
 
     if (handleConnection) connection.close()
     return routeInfo
+}
+
+/**
+ * Gets the extended route pattern point info for a given route key
+ * This is automatically called by getRoutesByGroup and getRoutesByName and is returned in the patternPoints field
+ * @param {String} routeKey key of the route to get info for
+ * @param {MapConnection} connection MapConnection to use
+ * @param {boolean} handleConnection should the connection be handled by this function (open and close)
+ * @returns extended route info, includes: map color and icon info and extendied direction info
+ */
+export async function getRoutePatternPoints(routeKey, connection = new MapConnection(), handleConnection = true) {
+    if (handleConnection) await connection.connect()
+
+    var patternPoints = await connection.send("GetPatternPoints", [routeKey])
+
+    if (handleConnection) connection.close()
+    return patternPoints
 }
 
 /**
