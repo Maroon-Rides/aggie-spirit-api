@@ -6,5 +6,6 @@ export {
     getRoutePatternPoints,
     getRouteByName,
     getRoutesByGroup,
+    getTimetable,
     RouteGroup    
 } from "./api.js"
