@@ -35,7 +35,7 @@ function mergeResults(results) {
  * @param {RouteGroup} group 
  * @returns the busses under the group specified
  */
-export async function getRoutes(group) {
+export async function getRoutesByGroup(group) {
     const connection = new MapConnection();
     await connection.connect();
 
