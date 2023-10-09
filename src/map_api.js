@@ -65,7 +65,7 @@ export async function getRoutesByGroup(groups, connection) {
         }
     }
 
-    if (connection == undefined) connection.close()
+    if (connection == undefined) conn.close()
 
     return routeGroups
 }
