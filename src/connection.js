@@ -2,26 +2,25 @@ import EventSource from "eventsource"
 
 const USER_AGENT = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4585.0 Safari/537.36"
 
-export function TimetableConnection(autoHandle = false) {
-    return new Connection("https://transport.tamu.edu/busroutes.web/timeHub", autoHandle)
+export function TimetableConnection() {
+    return new Connection("https://transport.tamu.edu/busroutes.web/timeHub")
 }
 
-export function MapConnection(autoHandle = false) {
-    return new Connection("https://transport.tamu.edu/busroutes.web/mapHub", autoHandle)
+export function MapConnection() {
+    return new Connection("https://transport.tamu.edu/busroutes.web/mapHub")
 }
 
 class Connection {
 
-    constructor(baseURL, autoHandle) {
+    constructor(baseURL) {
         this.pendingRequests = {}
         this.baseURL = baseURL
-        this.autoHandle = autoHandle
     }
 
     async connect() {
         // Get Session ID for Authentication
         const sessionIdResponse = await fetch('https://transport.tamu.edu/busroutes.web', {
-            signal: AbortSignal.timeout(10000),
+            signal: AbortSignal.timeout(10000), // timeout connection after 10 seconds
             headers: {
                 'User-Agent': USER_AGENT
             }
@@ -43,7 +42,6 @@ class Connection {
 
         // extract connection token from response
         this.connectionToken = (await negotiate_response.json()).connectionToken
-        await new Promise(r => setTimeout(r, 200)) // wait for hub to be ready
 
         // connect to sse server
         this.es = new EventSource(this.baseURL + "?id=" + this.connectionToken, {
@@ -62,15 +60,11 @@ class Connection {
         })
 
         this.es.addEventListener("error", (event) => {
-            console.log("API ERROR: ")
-            console.log(event)
+            throw new Error(event)
         })
 
-         // wait 500ms
-        await new Promise(r => setTimeout(r, 200))
-
         // send handshake
-        const handshake = await fetch(this.baseURL + "?id=" + this.connectionToken, 
+        await fetch(this.baseURL + "?id=" + this.connectionToken, 
             {
                 method: 'POST', 
                 body: `{"protocol":"json","version":1}`, 

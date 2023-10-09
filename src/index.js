@@ -3,9 +3,12 @@ export { MapConnection, TimetableConnection } from "./connection.js"
 export { 
     getRouteBuses, 
     getRouteInfo,
-    getRoutePatternPoints,
+    getRoutePatterns,
     getRouteByName,
     getRoutesByGroup,
-    getTimetable,
     RouteGroup    
-} from "./api.js"
+} from "./map_api.js"
+
+export {
+    getTimetable
+} from "./timetable_api.js"
