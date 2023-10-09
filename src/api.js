@@ -132,7 +132,7 @@ export async function getRouteBuses(routeName, connection = new MapConnection())
  * @param {TimetableConnection} connection TimetableConnection to use
  * @returns the timetable(s) for the given route name and date, if there is no timetable for the given date, an empty array is returned
  */
-export async function getTimetable(routeName, date = new Date(), connection = new TimetableConnection()) {
+export async function getTimetable(routeName, date = new Date(), connection = new TimetableConnection(true)) {
     if (connection.autoHandle) await connection.connect()
 
     // convert Date to momentjs object
