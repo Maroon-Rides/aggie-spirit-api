@@ -129,75 +129,55 @@ export async function getRouteBuses(routeName, connection = new MapConnection())
  * Retrieves the timetable for the given route name and date
  * @param {String} routeName name of the route to get the timetable for, can be an array of route names
  * @param {Date} date date to get the timetable for, defaults to current date
+ * @param {TimetableConnection} connection TimetableConnection to use
  * @returns the timetable(s) for the given route name and date, if there is no timetable for the given date, an empty array is returned
  */
-export async function getTimetable(routeName, date = new Date()) {
-    const connection = new TimetableConnection();
-    await connection.connect();
-
-    var timetable = []
-
-    if (!Array.isArray(routeName)) {
-        routeName = [routeName]
-    }
+export async function getTimetable(routeName, date = new Date(), connection = new TimetableConnection()) {
+    if (connection.autoHandle) await connection.connect()
 
     // convert Date to momentjs object
     date = moment(date.toISOString()).format("YYYY-MM-DD")
 
-    routeName.forEach((routeName) => {
-        timetable.push(connection.send("GetTimeTable", [routeName, date]))
-    })
+    var timetableResponse = await connection.send("GetTimeTable", [routeName, date])
 
-    var allTimetables = await Promise.all(timetable)
-    connection.close()
-
-    var mergedTimetables = []
-    allTimetables.forEach((result) => {
-        mergedTimetables = mergedTimetables.concat(result.result)
-    })
-
+    if (connection.autoHandle) connection.close()
 
     // start parsing the timetable HTML
     var parser = new DomParser();
 
-    var returnTable = []
+    var timetableFinal = []
 
-    // go through each bus
-    mergedTimetables.forEach((timetable) => {
-        var tFinal = []
+    // check if the bus is not running on the given date
+    if (timetableResponse.jsonTimeTableList[0].html.includes("No Service Is Scheduled For This Date")) return timetableFinal
 
-        // check if the bus is not running on the given date
-        if (timetable.jsonTimeTableList[0].html.includes("No Service Is Scheduled For This Date")) return tFinal
+    // go through each timetable
+    timetableResponse.jsonTimeTableList.forEach((table) => {
+        // parse the timetable html
+        var dom = parser.parseFromString("<table id='table'>" + table.html + "</table>")
 
-        // go through each timetable
-        timetable.jsonTimeTableList.forEach((table) => {
-            var dom = parser.parseFromString("<table id='table'>" + table.html + "</table>")
-            const t = dom.getElementsByTagName("table")[0]
+        // get the table
+        const t = dom.getElementsByTagName("table")[0]
 
-            // get all rows and cells from table
-            const rows = t.getElementsByTagName("tr")
+        // get all rows and cells from table
+        const rows = t.getElementsByTagName("tr")
 
-            var parsedTable = {}
+        var parsedTable = {}
 
-            var stops = rows[0].getElementsByTagName("th").map((stop) => {
-                parsedTable[stop.innerHTML] = []
-                return stop.innerHTML
-            })
-
-            for (var i=1; i < rows.length; i++) {
-                rows[i].getElementsByTagName("time").map((time, i) => {
-                    parsedTable[stops[i]].push(new Date(time.getAttribute("dateTime")))
-                })
-            }
-            tFinal.push(parsedTable)
+        // get all stop names from table
+        var stops = rows[0].getElementsByTagName("th").map((stop) => {
+            parsedTable[stop.innerHTML] = []
+            return stop.innerHTML
         })
-        returnTable.push(tFinal)
+
+        // get all times for each stop
+        for (var i=1; i < rows.length; i++) {
+            rows[i].getElementsByTagName("time").map((time, i) => {
+                parsedTable[stops[i]].push(new Date(time.getAttribute("dateTime")))
+            })
+        }
+
+        timetableFinal.push(parsedTable)
     })
 
-    if (returnTable.length == 1) {
-        returnTable = returnTable[0]
-    }
-
-    return returnTable
-
+    return timetableFinal
 }
