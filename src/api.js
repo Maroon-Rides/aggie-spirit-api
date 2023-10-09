@@ -148,10 +148,14 @@ export async function getTimetable(routeName, date = new Date()) {
 
     var returnTable = []
 
+    // go through each bus
     mergedTimetables.forEach((timetable) => {
         var tFinal = []
+
+        // check if the bus is not running on the given date
         if (timetable.jsonTimeTableList[0].html.includes("No Service Is Scheduled For This Date")) return tFinal
 
+        // go through each timetable
         timetable.jsonTimeTableList.forEach((table) => {
             var dom = parser.parseFromString("<table id='table'>" + table.html + "</table>")
             const t = dom.getElementsByTagName("table")[0]
