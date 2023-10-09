@@ -84,6 +84,8 @@ class Connection {
         
         // grab the json data
         const data = JSON.parse(dataString)
+
+        if (data.error) throw new Error(data.error)
         
         var pending = this.pendingRequests[data.invocationId]
         if (pending) {
