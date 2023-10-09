@@ -2,19 +2,20 @@ import EventSource from "eventsource"
 
 const USER_AGENT = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4585.0 Safari/537.36"
 
-export function TimetableConnection() {
-    return new Connection("https://transport.tamu.edu/busroutes.web/timeHub")
+export function TimetableConnection(autoHandle = false) {
+    return new Connection("https://transport.tamu.edu/busroutes.web/timeHub", autoHandle)
 }
 
-export function MapConnection() {
-    return new Connection("https://transport.tamu.edu/busroutes.web/mapHub")
+export function MapConnection(autoHandle = false) {
+    return new Connection("https://transport.tamu.edu/busroutes.web/mapHub", autoHandle)
 }
 
 class Connection {
 
-    constructor(baseURL) {
+    constructor(baseURL, autoHandle) {
         this.pendingRequests = {}
         this.baseURL = baseURL
+        this.autoHandle = autoHandle
     }
 
     async connect() {
