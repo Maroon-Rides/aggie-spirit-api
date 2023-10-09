@@ -19,11 +19,18 @@ export const RouteGroup = {
  * @param {MapConnection} connection MapConnection to use
  * @returns list of routes and their info, grouped by the groups given
  */
-export async function getRoutesByGroup(groups, connection = new MapConnection(true)) {
-    if (connection.autoHandle) await connection.connect();
+export async function getRoutesByGroup(groups, connection = 0) {
+    var conn // connection to use in function
+
+    if (connection == 0) {
+        conn = new MapConnection()
+        await conn.connect()
+    } else {
+        conn = connection
+    }
 
     var routeGroups = {}
-    
+
     // make sure groups is an array
     if (!Array.isArray(groups)) {
         groups = [groups]
@@ -31,7 +38,7 @@ export async function getRoutesByGroup(groups, connection = new MapConnection(tr
 
     for (var group in groups) {
         group = groups[group]
-        routeGroups[group] = connection.send("GetRoutesByGroup", [group])
+        routeGroups[group] = conn.send("GetRoutesByGroup", [group])
     }
 
     // make sure all promises are resolved
@@ -54,7 +61,7 @@ export async function getRoutesByGroup(groups, connection = new MapConnection(tr
         }
     }
 
-    if (connection.autoHandle) connection.close()
+    if (connection == 0) connection.close()
 
     return routeGroups
 }
@@ -65,14 +72,21 @@ export async function getRoutesByGroup(groups, connection = new MapConnection(tr
  * @param {MapConnection} connection MapConnection to use
  * @returns 
  */
-export async function getRouteByName(routeName, connection = new MapConnection(true)) {
-    if (connection.autoHandle) await connection.connect();
+export async function getRouteByName(routeName, connection = 0) {
+    var conn // connection to use in function
 
-    var route = await connection.send("GetRoute", [routeName])
+    if (connection == 0) {
+        conn = new MapConnection()
+        await conn.connect()
+    } else {
+        conn = connection
+    }
+
+    var route = await conn.send("GetRoute", [routeName])
     route.routeInfo = await getRouteInfo(route.key, connection, false)
     route.patternPoints = await getRoutePatternPoints(route.key, connection, false)
 
-    if (connection.autoHandle) connection.close()
+    if (connection == 0) conn.close()
 
     return route
 }
@@ -84,12 +98,19 @@ export async function getRouteByName(routeName, connection = new MapConnection(t
  * @param {MapConnection} connection MapConnection to use
  * @returns extended route info, includes: waypoints, stops, and route color
  */
-export async function getRouteInfo(routeKey, connection = new MapConnection(true)) {
-    if (connection.autoHandle) await connection.connect()
+export async function getRouteInfo(routeKey, connection = 0) {
+    var conn // connection to use in function
 
-    var routeInfo = await connection.send("GetPatternPaths", [routeKey])
+    if (connection == 0) {
+        conn = new MapConnection()
+        await conn.connect()
+    } else {
+        conn = connection
+    }
 
-    if (connection.autoHandle) connection.close()
+    var routeInfo = await conn.send("GetPatternPaths", [routeKey])
+
+    if (connection == 0) conn.close()
     return routeInfo
 }
 
@@ -101,11 +122,18 @@ export async function getRouteInfo(routeKey, connection = new MapConnection(true
  * @returns extended route info, includes: map color and icon info and extendied direction info
  */
 export async function getRoutePatternPoints(routeKey, connection = new MapConnection(true)) {
-    if (connection.autoHandle) await connection.connect()
+    var conn // connection to use in function
 
-    var patternPoints = await connection.send("GetPatternPoints", [routeKey])
+    if (connection == 0) {
+        conn = new MapConnection()
+        await conn.connect()
+    } else {
+        conn = connection
+    }
 
-    if (connection.autoHandle) connection.close()
+    var patternPoints = await conn.send("GetPatternPoints", [routeKey])
+
+    if (connection == 0) conn.close()
     return patternPoints
 }
 
@@ -116,11 +144,18 @@ export async function getRoutePatternPoints(routeKey, connection = new MapConnec
  * @returns an array of bus information for the active busses on the route
  */
 export async function getRouteBuses(routeName, connection = new MapConnection()) {
-    if (connection.autoHandle) await connection.connect()
+    var conn // connection to use in function
 
-    var busses = await connection.send("GetBuses", [routeName])
+    if (connection == 0) {
+        conn = new TimetableConnection()
+        await conn.connect()
+    } else {
+        conn = connection
+    }
 
-    if (connection.autoHandle) connection.close()
+    var busses = await conn.send("GetBuses", [routeName])
+
+    if (connection == 0) conn.close()
     return busses
 }
 
@@ -132,14 +167,21 @@ export async function getRouteBuses(routeName, connection = new MapConnection())
  * @returns the timetable(s) for the given route name and date, if there is no timetable for the given date, an empty array is returned
  */
 export async function getTimetable(routeName, date = new Date(), connection = new TimetableConnection(true)) {
-    if (connection.autoHandle) await connection.connect()
+    var conn // connection to use in function
+
+    if (connection == 0) {
+        conn = new TimetableConnection()
+        await conn.connect()
+    } else {
+        conn = connection
+    }
 
     // convert Date to momentjs object
     date = moment(date.toISOString()).format("YYYY-MM-DD")
 
-    var timetableResponse = await connection.send("GetTimeTable", [routeName, date])
+    var timetableResponse = await conn.send("GetTimeTable", [routeName, date])
 
-    if (connection.autoHandle) connection.close()
+    if (connection == 0) conn.close()
 
     // start parsing the timetable HTML
     var parser = new DomParser();
