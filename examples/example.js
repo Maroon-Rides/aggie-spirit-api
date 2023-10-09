@@ -1,9 +1,6 @@
-import { getRouteInfo, getRoutes, RouteGroup } from '../src/index.js';
+import { getRouteByName, getRoutesByGroup, RouteGroup } from '../src/index.js';
 
-getRoutes(RouteGroup.ALL).then((routes) => {
+getRouteByName("01-04").then((routes) => {
 
-    getRouteInfo(routes.map((r) => r.key)).then((routeInfo) => {
-        console.log(routeInfo)
-    })
-    
+    console.log(routes)
 })
