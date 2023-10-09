@@ -1,4 +1,4 @@
-// export { MapConnection, TimetableConnection } from "./connection.js"
+export { MapConnection, TimetableConnection } from "./connection.js"
 
 export { 
     getRouteBuses, 
