@@ -17,7 +17,7 @@ export const RouteGroup = {
  * @param {MapConnection} connection MapConnection to use
  * @returns list of routes and their info, grouped by the groups given
  */
-export async function getRoutesByGroup(groups, connection = new MapConnection()) {
+export async function getRoutesByGroup(groups, connection = new MapConnection(true)) {
     if (connection.autoHandle) await connection.connect();
 
     var routeGroups = {}
@@ -63,7 +63,7 @@ export async function getRoutesByGroup(groups, connection = new MapConnection())
  * @param {MapConnection} connection MapConnection to use
  * @returns 
  */
-export async function getRouteByName(routeName, connection = new MapConnection()) {
+export async function getRouteByName(routeName, connection = new MapConnection(true)) {
     if (connection.autoHandle) await connection.connect();
 
     var route = await connection.send("GetRoute", [routeName])
@@ -82,7 +82,7 @@ export async function getRouteByName(routeName, connection = new MapConnection()
  * @param {MapConnection} connection MapConnection to use
  * @returns extended route info, includes: waypoints, stops, and route color
  */
-export async function getRouteInfo(routeKey, connection = new MapConnection()) {
+export async function getRouteInfo(routeKey, connection = new MapConnection(true)) {
     if (connection.autoHandle) await connection.connect()
 
     var routeInfo = await connection.send("GetPatternPaths", [routeKey])
@@ -98,7 +98,7 @@ export async function getRouteInfo(routeKey, connection = new MapConnection()) {
  * @param {MapConnection} connection MapConnection to use
  * @returns extended route info, includes: map color and icon info and extendied direction info
  */
-export async function getRoutePatternPoints(routeKey, connection = new MapConnection()) {
+export async function getRoutePatternPoints(routeKey, connection = new MapConnection(true)) {
     if (connection.autoHandle) await connection.connect()
 
     var patternPoints = await connection.send("GetPatternPoints", [routeKey])
