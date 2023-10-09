@@ -1,4 +1,6 @@
 import { MapConnection, TimetableConnection } from "./connection.js";
+import moment from "moment";
+import DomParser from "dom-parser"
 
 /**
  * The possible groups of routes to retrieve with getRoutesByGroup
@@ -122,3 +124,59 @@ export async function getRouteBuses(routeName, connection = new MapConnection())
     return busses
 }
 
+/**
+ * Retrieves the timetable for the given route name and date
+ * @param {String} routeName name of the route to get the timetable for, can be an array of route names
+ * @param {Date} date date to get the timetable for, defaults to current date
+ * @param {TimetableConnection} connection TimetableConnection to use
+ * @returns the timetable(s) for the given route name and date, if there is no timetable for the given date, an empty array is returned
+ */
+export async function getTimetable(routeName, date = new Date(), connection = new TimetableConnection(true)) {
+    if (connection.autoHandle) await connection.connect()
+
+    // convert Date to momentjs object
+    date = moment(date.toISOString()).format("YYYY-MM-DD")
+
+    var timetableResponse = await connection.send("GetTimeTable", [routeName, date])
+
+    if (connection.autoHandle) connection.close()
+
+    // start parsing the timetable HTML
+    var parser = new DomParser();
+
+    var timetableFinal = []
+
+    // check if the bus is not running on the given date
+    if (timetableResponse.jsonTimeTableList[0].html.includes("No Service Is Scheduled For This Date")) return timetableFinal
+
+    // go through each timetable
+    timetableResponse.jsonTimeTableList.forEach((table) => {
+        // parse the timetable html
+        var dom = parser.parseFromString("<table id='table'>" + table.html + "</table>")
+
+        // get the table
+        const t = dom.getElementsByTagName("table")[0]
+
+        // get all rows and cells from table
+        const rows = t.getElementsByTagName("tr")
+
+        var parsedTable = {}
+
+        // get all stop names from table
+        var stops = rows[0].getElementsByTagName("th").map((stop) => {
+            parsedTable[stop.innerHTML] = []
+            return stop.innerHTML
+        })
+
+        // get all times for each stop
+        for (var i=1; i < rows.length; i++) {
+            rows[i].getElementsByTagName("time").map((time, i) => {
+                parsedTable[stops[i]].push(new Date(time.getAttribute("dateTime")))
+            })
+        }
+
+        timetableFinal.push(parsedTable)
+    })
+
+    return timetableFinal
+}
