@@ -1,7 +1,7 @@
 import { MapConnection, TimetableConnection } from "./connection.js";
 
 /**
- * The possible groups of routes to retrieve with getRoutes
+ * The possible groups of routes to retrieve with getRoutesByGroup
  */
 export const RouteGroup = {
     ON_CAMPUS: "OnCampus",
@@ -12,9 +12,11 @@ export const RouteGroup = {
 
 
 /**
- * Gets the busses under a specific group. Use the RouteGroup enum to specify the group
- * @param {RouteGroup} group 
- * @returns the busses under the group specified
+ * Gets the routes for the given groups
+ * @param {RouteGroup} groups groups to provide routes for, either array of RouteGroup or single RouteGroup
+ * @param {MapConnection} connection MapConnection to use
+ * @param {boolean} handleConnection should the connection be handled by this function (open and close)
+ * @returns list of routes and their info, grouped by the groups given
  */
 export async function getRoutesByGroup(groups, connection = new MapConnection(), handleConnection = true) {
     if (handleConnection) await connection.connect();
