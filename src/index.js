@@ -1,3 +1,10 @@
 // export { MapConnection, TimetableConnection } from "./connection.js"
 
-export { getRoutesByGroup, getRouteByName, RouteGroup, getRouteInfo } from "./api.js"
+export { 
+    getRouteBuses, 
+    getRouteInfo,
+    getRoutePatternPoints,
+    getRouteByName,
+    getRoutesByGroup,
+    RouteGroup    
+} from "./api.js"
