@@ -116,26 +116,14 @@ export async function getRoutePatternPoints(routeKey, connection = new MapConnec
  * @param {String} routeName the short name of the route to get busses for (e.g. 47-48, 04, etc)
  * @param {MapConnection} connection MapConnection to use
  * @param {boolean} handleConnection should the connection be handled by this function (open and close)
- * @returns the bus information for the active busses on the route
+ * @returns an array of bus information for the active busses on the route
  */
-export async function getRouteBusses(routeName, connection = new MapConnection(), handleConnection = true) {
-    const connection = new MapConnection();
-    await connection.connect();
+export async function getRouteBuses(routeName, connection = new MapConnection(), handleConnection = true) {
+    if (handleConnection) await connection.connect()
 
-    var busses = []
+    var busses = await connection.send("GetBuses", [routeName])
 
-    if (!Array.isArray(routeName)) {
-        routeName = [routeName]
-    }
-
-    routeName.forEach((routeName) => {
-        busses.push(connection.send("GetBuses", [routeName]))
-    })
-
-    var allBusses = await Promise.all(busses)
-
-    connection.close()
-
-    return mergeResults(allBusses)
+    if (handleConnection) connection.close()
+    return busses
 }
 
