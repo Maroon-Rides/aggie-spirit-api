@@ -13,49 +13,48 @@ export const RouteGroup = {
     ALL: ["OnCampus", "OffCampus", "Gameday"]
 }
 
-/**
- * Flattens the results from the API into a single array without unnecessary data
- * If a single result is passed in, it is returned without modification
- * @param {any} results 
- * @returns merged results from the API
- */
-function mergeResults(results) {
-    var results_merged = []
-
-    if (results.length == 1) {
-        return results[0].result
-    }
-
-    results.forEach((result) => {
-        results_merged = results_merged.concat(result.result)
-    })
-
-    return results_merged
-}
 
 /**
  * Gets the busses under a specific group. Use the RouteGroup enum to specify the group
  * @param {RouteGroup} group 
  * @returns the busses under the group specified
  */
-export async function getRoutesByGroup(group) {
+export async function getRoutesByGroup(groups) {
     const connection = new MapConnection();
     await connection.connect();
 
-    var routeGroups = []
+    var routeGroups = {}
     
-    if (!Array.isArray(group)) {
-        group = [group]
+    if (!Array.isArray(groups)) {
+        groups = [groups]
     }
 
-    group.forEach((group) => {
-        routeGroups.push(connection.send("GetRoutesByGroup", [group]))
-    })
+    for (var group in groups) {
+        group = groups[group]
+        routeGroups[group] = connection.send("GetRoutesByGroup", [group])
+    }
 
-    var allRoutes = await Promise.all(routeGroups)
+    // make sure all promises are resolved
+    for (var group in routeGroups) {
+        routeGroups[group] = await routeGroups[group]
+    }
+
+    for (var group in routeGroups) {
+        routeGroups[group].forEach((route) => {
+            route.routeInfo = connection.send("GetPatternPaths", [route.key])
+        })
+    }
+
+    // resolve all .routeInfo promises
+    for (var group in routeGroups) {
+        for (var route in routeGroups[group]) {
+            routeGroups[group][route].routeInfo = await routeGroups[group][route].routeInfo
+        }
+    }
+
     connection.close()
 
-    return mergeResults(allRoutes)
+    return routeGroups
 }
 
 /**
