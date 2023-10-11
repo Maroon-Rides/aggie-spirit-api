@@ -61,7 +61,7 @@ export async function getRoutesByGroup(groups, connection) {
     for (var group in routeGroups) {
         for (var route in routeGroups[group]) {
             routeGroups[group][route].routeInfo = await routeGroups[group][route].routeInfo
-            routeGroups[group][route].patternPoints = await routeGroups[group][route].patternPoints
+            routeGroups[group][route].routePatterns = await routeGroups[group][route].routePatterns
         }
     }
 
