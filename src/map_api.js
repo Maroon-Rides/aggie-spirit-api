@@ -52,7 +52,7 @@ export async function getRoutesByGroup(groups, connection) {
 
     for (var group in routeGroups) {
         routeGroups[group].forEach((route) => {
-            route.routeInfo = getRouteInfo(route.key, connection, false)
+            route.routeInfo = getRouteByKey(route.key, connection, false)
             route.routePatterns = getRoutePatterns(route.key, connection, false)
         })
     }
@@ -80,7 +80,7 @@ export async function getRouteByName(routeName, connection) {
     const conn = await prepareConnection(connection) // connection to use in function
 
     var route = await conn.send("GetRoute", [routeName])
-    route.routeInfo = getRouteInfo(route.key, connection, false)
+    route.routeInfo = getRouteByKey(route.key, connection, false)
     route.routePatterns = getRoutePatterns(route.key, connection, false)
 
     // resolve all extended data promises
@@ -99,7 +99,7 @@ export async function getRouteByName(routeName, connection) {
  * @param {MapConnection} connection MapConnection to use
  * @returns extended route info, includes: waypoints, stops, and route color
  */
-export async function getRouteInfo(routeKey, connection) {
+export async function getRouteByKey(routeKey, connection) {
     const conn = await prepareConnection(connection) // connection to use in function
 
     var routeInfo = await conn.send("GetPatternPaths", [routeKey])

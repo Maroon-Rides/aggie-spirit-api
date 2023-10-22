@@ -2,8 +2,7 @@ export { MapConnection, TimetableConnection } from "./connection.js"
 
 export { 
     getRouteBuses, 
-    getRouteInfo,
-    getRoutePatterns,
+    getRouteByKey,
     getRouteByName,
     getRoutesByGroup,
     RouteGroup    
