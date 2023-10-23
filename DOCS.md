@@ -8,69 +8,71 @@
 - `RouteGroup.OFF_CAMPUS`
 - `RouteGroup.GAMEDAY`
 
-*You are able to put multiple `RouteGroup` in an ... to access multiple at a time*
+You are able to put multiple `RouteGroup` in an ... to access multiple at a time
+
+The items in `routeInfo` and `routePatterns` are removed below to be concise. For reference as to the contents of those items, see [`getRouteByName`](#getroutebynameroutename)
 
 `getRoutesByGroup(RouteGroup.ALL)` Returns:
-```js
+```json
 {
   "OnCampus": [
     {
-      key: "39df824f-5a0b-4b00-8cbf-6a12627b1351",
-      name: "Bonfire",
-      shortName: "01",
-      description: "",
-      routeInfo: [...],
-      routePatterns: [...]
+      "key": "39df824f-5a0b-4b00-8cbf-6a12627b1351",
+      "name": "Bonfire",
+      "shortName": "01",
+      "description": "",
+      "routeInfo": [...],
+      "routePatterns": [...]
     },
     {
-      key: "418d0717-262d-4fc8-885a-344d5afc292a",
-      name: "Nights & Weekends",
-      shortName: "01-04",
-      description: "",
-      routeInfo: [...],
-      routePatterns: [...]
+      "key": "418d0717-262d-4fc8-885a-344d5afc292a",
+      "name": "Nights & Weekends",
+      "shortName": "01-04",
+      "description": "",
+      "routeInfo": [...],
+      "routePatterns": [...]
     },
     {
-      key: "00a2aebb-d91c-42d7-8592-4bf17dbb5956",
-      name: "Yell Practice",
-      shortName: "03",
-      description: "",
-      routeInfo: [...],
-      routePatterns: [...]
+      "key": "00a2aebb-d91c-42d7-8592-4bf17dbb5956",
+      "name": "Yell Practice",
+      "shortName": "03",
+      "description": "",
+      "routeInfo": [...],
+      "routePatterns": [...]
     } ...
   ],
   "OffCampus": [
     {
-      key: "56f5b4fb-a637-44d3-8c91-617aae0b8a08",
-      name: "Reveille",
-      shortName: "12",
-      description: "",
-      routeInfo: [...],
-      routePatterns: [...]
+      "key": "56f5b4fb-a637-44d3-8c91-617aae0b8a08",
+      "name": "Reveille",
+      "shortName": "12",
+      "description": "",
+      "routeInfo": [...],
+      "routePatterns": [...]
     },
     {
-      key: "ffdbc389-7678-4a66-873d-4b0ef954b81d",
-      name: "Old Army",
-      shortName: "15",
-      description: "",
-      routeInfo: [...],
-      routePatterns: [...]
+      "key": "ffdbc389-7678-4a66-873d-4b0ef954b81d",
+      "name": "Old Army",
+      "shortName": "15",
+      "description": "",
+      "routeInfo": [...],
+      "routePatterns": [...]
     },
     {
-      key: "857fe6f6-8106-4147-9a3a-553786439f86",
-      name: "Excel",
-      shortName: "22",
-      description: "",
-      routeInfo: [...],
-      routePatterns: [...]
+      "key": "857fe6f6-8106-4147-9a3a-553786439f86",
+      "name": "Excel",
+      "shortName": "22",
+      "description": "",
+      "routeInfo": [...],
+      "routePatterns": [...]
     },
     {
-      key: "75011f50-f500-4436-9e0c-1db1cd001735",
-      name: "Rudder",
-      shortName: "26",
-      description: "",
-      routeInfo: [...],
-      routePatterns: [...]
+      "key": "75011f50-f500-4436-9e0c-1db1cd001735",
+      "name": "Rudder",
+      "shortName": "26",
+      "description": "",
+      "routeInfo": [...],
+      "routePatterns": [...]
     } ...
   ],
   "Gameday": [ 
@@ -82,6 +84,8 @@
 ## `getRouteByKey(routeKey)`
 
 `routeKey`: key of the route (usually from `getRoutesByGroup`)
+
+In the below example, the pattern points are truncated below to be concise, they continue in order for the rest of the route pattern
 
 `getRouteByKey("ffdbc389-7678-4a66-873d-4b0ef954b81d")` Returns:
 
