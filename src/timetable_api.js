@@ -31,8 +31,6 @@ export async function getTimetable(routeName, date = new Date(), connection) {
 
     var timetableFinal = []
 
-    console.log(timetableResponse.jsonTimeTableList)
-
     // check if the bus is not running on the given date
     if (timetableResponse.jsonTimeTableList[0].html.includes("No Service Is Scheduled For This Date")) return timetableFinal
 
