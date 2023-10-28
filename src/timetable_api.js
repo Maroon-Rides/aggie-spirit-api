@@ -9,7 +9,7 @@ import { TimetableConnection } from "./connection.js";
  * @param {TimetableConnection} connection TimetableConnection to use
  * @returns the timetable(s) for the given route name and date, if there is no timetable for the given date, an empty array is returned
  */
-export async function getTimetable(routeName, date = new Date(), connection = new TimetableConnection(true)) {
+export async function getTimetable(routeName, date = new Date(), connection) {
     var conn // connection to use in function
 
     if (connection == undefined) {
@@ -30,6 +30,8 @@ export async function getTimetable(routeName, date = new Date(), connection = ne
     var parser = new DomParser();
 
     var timetableFinal = []
+
+    console.log(timetableResponse.jsonTimeTableList)
 
     // check if the bus is not running on the given date
     if (timetableResponse.jsonTimeTableList[0].html.includes("No Service Is Scheduled For This Date")) return timetableFinal
