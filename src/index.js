@@ -11,3 +11,7 @@ export {
 export {
     getTimetable
 } from "./timetable_api.js"
+
+export {
+    getAlerts
+} from "./alert_api.js"
