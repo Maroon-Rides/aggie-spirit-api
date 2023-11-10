@@ -55,8 +55,15 @@ export async function getTimetable(routeName, date = new Date(), connection) {
 
         // get all times for each stop
         for (var i=1; i < rows.length; i++) {
-            rows[i].getElementsByTagName("time").map((time, i) => {
-                parsedTable[stops[i]].push(new Date(time.getAttribute("dateTime")))
+            // console.log(rows[i].innerHTML)
+            rows[i].getElementsByTagName("td").map((item, i) => {
+                // get the time
+                var time = item.getElementsByTagName("time")
+                if(time.length == 0) {
+                    parsedTable[stops[i]].push(null)
+                } else {
+                    parsedTable[stops[i]].push(new Date(time[0].getAttribute("dateTime")))
+                }
             })
         }
 
