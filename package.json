@@ -23,5 +23,6 @@
   "homepage": "https://github.com/bwees/aggie-spirit-api#readme",
   "dependencies": {
     "moment": "^2.29.4"
-  }
+  },
+  "types": "types/index.d.ts"
 }
