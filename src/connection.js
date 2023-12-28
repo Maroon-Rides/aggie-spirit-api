@@ -1,6 +1,6 @@
 export async function getAuthentication() {
     var res = await fetch("https://aggiespirit.ts.tamu.edu/")
-    var cookies = res.headers.getSetCookie()
+    var cookies = res.headers.get("set-cookie").split(", ")
 
     // extract to a header 
     var header = ""
