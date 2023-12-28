@@ -10,5 +10,8 @@ export {
 
 export {
     getActiveRoutes,
-    getNearbyRoutes
+    getNearbyRoutes,
+    getNextStopTimes,
+    getStopSchedules,
+    getStopEstimates
 } from "./home.js"

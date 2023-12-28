@@ -6,7 +6,7 @@ import moment from "moment"
  * @param {string} auth Authentication to use for the request
  * @returns {[string]} list of route names ("01", "04", etc.)
  */
-export async function getActiveRoutes(auth = null) {
+export async function getActiveRoutes(auth=null) {
     auth = auth || await getAuthentication()
 
     var res = await fetch("https://aggiespirit.ts.tamu.edu/Home/GetActiveRoutes", {
@@ -29,7 +29,7 @@ export async function getActiveRoutes(auth = null) {
  * @param {string} auth authentication to use for the request
  * @returns list of routes that satisy given constraints
  */
-export async function getNearbyRoutes(favRoutes = [], latitude = 30.6138, longitude = -96.3395, maxRadius = null, minRadius = null, auth = null) {
+export async function getNearbyRoutes(favRoutes=[], latitude=30.6138, longitude=-96.3395, maxRadius=null, minRadius=null, auth=null) {
     auth = auth || await getAuthentication()
 
     var payload = {
@@ -57,7 +57,7 @@ export async function getNearbyRoutes(favRoutes = [], latitude = 30.6138, longit
  * @param {string} auth authentication to use for the request
  * @returns list of stop times for the given routes
  */
-async function getNextStopTimes(routes, auth = null) {
+export async function getNextStopTimes(routes, auth=null) {
     auth = auth || await getAuthentication()
 
     var payload = {
@@ -83,7 +83,7 @@ async function getNextStopTimes(routes, auth = null) {
  * @param {string} auth authentication to use for the request
  * @returns list of schedules for the given stops
  */
-export async function getStopSchedules(stopCode, date, auth = null) {
+export async function getStopSchedules(stopCode, date, auth=null) {
     auth = auth || await getAuthentication()
 
     date = moment(date).format("YYYY-MM-DD")
@@ -106,13 +106,13 @@ export async function getStopSchedules(stopCode, date, auth = null) {
 }
 
 /**
- * Gets the schedules for a given stops(s)
+ * Gets the schedule estimates for a given stops(s)
  * @param {[string]} stopCode list of stop ids to get schedules for
  * @param {Date} date date to get schedules for
  * @param {string} auth authentication to use for the request
  * @returns list of schedules for the given stops
  */
-export async function getStopEstimates(stopCode, date, auth = null) {
+export async function getStopEstimates(stopCode, date, auth=null) {
     auth = auth || await getAuthentication()
 
     date = moment(date).format("YYYY-MM-DD")

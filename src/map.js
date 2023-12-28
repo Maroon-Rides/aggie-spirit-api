@@ -5,7 +5,7 @@ import { getAuthentication } from "./connection.js"
  * @param {string} auth authentication to use for the request
  * @returns base data for the map
  */
-export async function getBaseData(auth = null) {
+export async function getBaseData(auth=null) {
     auth = auth || await getAuthentication()
     var res = await fetch("https://aggiespirit.ts.tamu.edu/RouteMap/GetBaseData", {
         method: "POST",
@@ -23,7 +23,7 @@ export async function getBaseData(auth = null) {
  * @param {string} auth authentication to use for the request
  * @returns route info for the given route(s)
  */
-export async function getPatternPaths(patternIds, auth = null) {
+export async function getPatternPaths(patternIds, auth=null) {
     auth = auth || await getAuthentication()
 
     var form = new URLSearchParams()
@@ -49,7 +49,7 @@ export async function getPatternPaths(patternIds, auth = null) {
  * @param {*} auth authentication to use for the request
  * @returns list of active vehicles on the given route(s)
  */
-export async function getVehicles(patternIds, auth = null) {
+export async function getVehicles(patternIds, auth=null) {
     auth = auth || await getAuthentication()
 
     var form = new URLSearchParams()
