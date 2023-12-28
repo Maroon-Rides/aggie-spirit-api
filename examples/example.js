@@ -1,6 +1,6 @@
-import { getRouteByName, getRoutesByGroup, RouteGroup } from '../src/index.js';
+import { getActiveRoutes, getAuthentication, getBaseData, getNearbyRoutes, getPatternPaths } from "../src/index.js";
 
-getRouteByName("01-04").then((routes) => {
-
-    console.log(routes)
-})
+getNearbyRoutes()
+    .then((res) => {
+        console.log(res)
+    })
