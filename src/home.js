@@ -1,6 +1,11 @@
 import { getAuthentication } from "./connection.js"
 import moment from "moment"
 
+/**
+ * Get the currently active routes
+ * @param {string} auth Authentication to use for the request
+ * @returns {[string]} list of route names ("01", "04", etc.)
+ */
 export async function getActiveRoutes(auth = null) {
     auth = auth || await getAuthentication()
 
@@ -14,8 +19,16 @@ export async function getActiveRoutes(auth = null) {
     return await res.json()
 }
 
-//
-
+/**
+ * Gets the nearby routes for a given location, with optional radius
+ * @param {[string]} favRoutes list of favorited routes
+ * @param {number} latitude GPS latitude
+ * @param {number} longitude GPS longitude
+ * @param {number} maxRadius max radius to search
+ * @param {number} minRadius min radius to search
+ * @param {string} auth authentication to use for the request
+ * @returns list of routes that satisy given constraints
+ */
 export async function getNearbyRoutes(favRoutes = [], latitude = 30.6138, longitude = -96.3395, maxRadius = null, minRadius = null, auth = null) {
     auth = auth || await getAuthentication()
 
@@ -38,6 +51,12 @@ export async function getNearbyRoutes(favRoutes = [], latitude = 30.6138, longit
     return await res.json()
 }
 
+/**
+ * get the next stop times for a given route(s)
+ * @param {[string]} routes route ids to get stop times for
+ * @param {string} auth authentication to use for the request
+ * @returns list of stop times for the given routes
+ */
 async function getNextStopTimes(routes, auth = null) {
     auth = auth || await getAuthentication()
 
@@ -57,6 +76,13 @@ async function getNextStopTimes(routes, auth = null) {
     return await res.json()
 }
 
+/**
+ * Gets the schedules for a given stops(s)
+ * @param {[string]} stopCode list of stop ids to get schedules for
+ * @param {Date} date date to get schedules for
+ * @param {string} auth authentication to use for the request
+ * @returns list of schedules for the given stops
+ */
 export async function getStopSchedules(stopCode, date, auth = null) {
     auth = auth || await getAuthentication()
 
@@ -79,6 +105,13 @@ export async function getStopSchedules(stopCode, date, auth = null) {
     return await res.json()
 }
 
+/**
+ * Gets the schedules for a given stops(s)
+ * @param {[string]} stopCode list of stop ids to get schedules for
+ * @param {Date} date date to get schedules for
+ * @param {string} auth authentication to use for the request
+ * @returns list of schedules for the given stops
+ */
 export async function getStopEstimates(stopCode, date, auth = null) {
     auth = auth || await getAuthentication()
 
