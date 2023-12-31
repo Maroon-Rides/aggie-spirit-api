@@ -23,22 +23,19 @@ export async function getBaseData(auth) {
  * @returns route info for the given route(s)
  */
 export async function getPatternPaths(patternIds, auth) {
-    var form = new URLSearchParams()
-    patternIds.forEach((id) => {
-        form.append("routeKeys[]", id)
-    })
-
+    // Constructing the body data
+    const bodyData = patternIds.map(id => `routeKeys%5B%5D=${encodeURIComponent(id)}`).join('&');
 
     var res = await fetch("https://aggiespirit.ts.tamu.edu/RouteMap/GetPatternPaths", {
         method: "POST",
-        headers: {
+       headers: {
             "cookie": auth,
             "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
         },
-        body: form
-    })
-    
-    return await res.json()
+        body: bodyData
+    });
+
+    return await res.json();
 }
 
 /**
