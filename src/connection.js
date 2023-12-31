@@ -5,7 +5,7 @@
  * @returns {string} - the header for authentication
  */
 export async function getAuthentication() {
-    var res = await fetch("https://aggiespirit.ts.tamu.edu/")
+    var res = await fetch("https://aggiespirit.ts.tamu.edu/", {credentials: "omit"})
     var cookies = res.headers.get("set-cookie").split(", ")
 
     // extract to a header 
