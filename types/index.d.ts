@@ -54,7 +54,7 @@ export interface MapPatternPath {
     patternKey: string
     directionKey: string
     patternPoints: MapPatternPoint[]
-    segmentPaths: any[]
+    segmentPaths: any[] // Always blank... leaving any for now
 }
 
 export interface TimetableServiceInterruption {
@@ -64,6 +64,13 @@ export interface TimetableServiceInterruption {
     isStopClosed: boolean
 }
 
+export interface NextStopTime {
+    estimatedDepartTimeUtc: string
+    isOffRoute: boolean
+    isRealtime: boolean
+    scheduledDepartTimeUtc: string
+}
+
 export interface TimetableNearbyStops {
     directionKey: string
     directionName: string
@@ -71,10 +78,10 @@ export interface TimetableNearbyStops {
     stopCode: string
     stopName: string
     isTemporary: boolean
-    nextStopTimes: any[]
-    frequencyInfo: any
+    nextStopTimes: NextStopTime[]
+    frequencyInfo: any // Always blank... leaving any for now
     serviceInterruptions: TimetableServiceInterruption[]
-    amenities: any[]
+    amenities: Amenity[]
 }
 
 export interface TimetableRoute {
@@ -86,23 +93,55 @@ export interface TimetableRoute {
     nearbyStops: TimetableNearbyStops[]
 }
 
-export interface TimetableAmentity {
+export interface Amenity {
     name: string
     iconName: string
 }
 
+export interface DepartureTime {
+    estimatedDepartTimeUtc: string
+    isOffRoute: boolean
+    scheduledDepartTimeUtc: string
+}
+
 export interface RouteDirectionTime {
     directionKey: string
-    frequency: any
-    nextDeparts: any[]
-    routeKey: any
+    frequencyInfo: any // Always blank... leaving any for now
+    nextDeparts: DepartureTime[]
+    routeKey: string
+}
+
+export interface Location {
+    heading: number
+    lastGpsDate: string
+    latitude: number
+    longitude: number
+    speed: number
+}
+
+export interface Vehicle {
+    amenities: Amenity[]
+    directionKey: string
+    directionName: string
+    isExtraTrip: boolean
+    key: string
+    location: Location
+    name: string
+    passenderCapacity: number
+    passengersOnboard: number
+    routeKey: string
+}
+
+export interface VehiclesByDirection {
+    directionKey: string
+    vehicles: Vehicle[]
 }
 
 export interface NearbyRoutesResponse {
     longitude: number,
     latutude: number,
-    stopCode: any,
-    busStopRouteResults: [any],
+    stopCode: any, // always blank... leaving any for now
+    busStopRouteResults: any[], // always blank... leaving [any] for now
     routeResults: [TimetableRoute],
     nextMinRadius: number,
     nextMaxRadius: number,
@@ -117,13 +156,18 @@ export interface BaseDataResponse {
 export interface PatternPathsResponse {
     routeKey: string
     pattenPaths: MapPatternPath[]
-    vehiclesByDirections: any
+    vehiclesByDirections: VehiclesByDirection[]
 }
 
 export interface NextDepartureTimesResponse {
-    ammenities: any[]
+    ammenities: Amenity[]
     routeDirectonTimes: RouteDirectionTime[]
     stopCode: string
+}
+
+export interface VehicleResponse {
+    routeKey: string
+    vehiclesByDirection: VehiclesByDirection[]
 }
 
 // Type Definitions: src/connection.js
@@ -217,7 +261,7 @@ export function getPatternPaths(patternIds: [string], auth?: string): Promise<Pa
  * @param {*} auth authentication to use for the request
  * @returns list of active vehicles on the given route(s)
  */
-export function getVehicles(patternIds: [string], auth?: string): Promise<any>
+export function getVehicles(patternIds: [string], auth?: string): Promise<VehicleResponse[]>
 
 
 /**
