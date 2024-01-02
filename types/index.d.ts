@@ -91,6 +91,13 @@ export interface TimetableAmentity {
     iconName: string
 }
 
+export interface RouteDirectionTime {
+    directionKey: string
+    frequency: any
+    nextDeparts: any[]
+    routeKey: any
+}
+
 export interface NearbyRoutesResponse {
     longitude: number,
     latutude: number,
@@ -111,6 +118,12 @@ export interface PatternPathsResponse {
     routeKey: string
     pattenPaths: MapPatternPath[]
     vehiclesByDirections: any
+}
+
+export interface NextDepartureTimesResponse {
+    ammenities: any[]
+    routeDirectonTimes: RouteDirectionTime[]
+    stopCode: string
 }
 
 // Type Definitions: src/connection.js
@@ -206,3 +219,13 @@ export function getPatternPaths(patternIds: [string], auth?: string): Promise<Pa
  */
 export function getVehicles(patternIds: [string], auth?: string): Promise<any>
 
+
+/**
+ * Get the next departure times for a stop
+ * @param {string} routeId route id to get departure times for
+ * @param {string} directionId direction id to get departure times for
+ * @param {string} stopId stop id to get departure times for
+ * @param {string} auth authentication to use for the request
+ * @returns list of departure times for the given stop
+ */
+export function getNextDepartureTimes(routeId: string, directionId: string, stopId: string, auth?: string): Promise<NextDepartureTimesResponse>

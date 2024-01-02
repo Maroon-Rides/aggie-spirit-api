@@ -45,10 +45,7 @@ export async function getPatternPaths(patternIds, auth) {
  * @returns list of active vehicles on the given route(s)
  */
 export async function getVehicles(patternIds, auth) {
-    var form = new URLSearchParams()
-    patternIds.forEach((id) => {
-        form.append("routeKeys[]", id)
-    })
+    const bodyData = patternIds.map(id => `routeKeys%5B%5D=${encodeURIComponent(id)}`).join('&');
 
 
     var res = await fetch("https://aggiespirit.ts.tamu.edu/RouteMap/GetPatternPaths", {
@@ -56,9 +53,33 @@ export async function getVehicles(patternIds, auth) {
         headers: {
             "cookie": auth
         },
-        body: form
+        body: bodyData
     })
     
     return await res.json()
 }
 
+/**
+ * Get the next departure times for a stop
+ * @param {string} routeId route id to get departure times for
+ * @param {string} directionId direction id to get departure times for
+ * @param {string} stopId stop id to get departure times for
+ * @param {string} auth authentication to use for the request
+ * @returns list of departure times for the given stop
+ */
+
+export async function getNextDepartTimes(routeId, directionId, stopId, auth) {
+    var bodyData = `routeDirectionKeys%5B0%5D%5BrouteKey%5D=${encodeURIComponent(routeId)}&routeDirectionKeys%5B0%5D%5BdirectionKey%5D=${encodeURIComponent(directionId)}&stopCode=${encodeURIComponent(stopId)}`
+
+
+    var res = await fetch("https://aggiespirit.ts.tamu.edu/RouteMap/GetNextDepartTimes", {
+        method: "POST",
+        headers: {
+            "cookie": auth,
+            "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"
+        },
+        body: bodyData
+    })
+
+    return await res.json()
+}
