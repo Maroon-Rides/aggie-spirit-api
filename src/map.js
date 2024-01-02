@@ -51,7 +51,8 @@ export async function getVehicles(patternIds, auth) {
     var res = await fetch("https://aggiespirit.ts.tamu.edu/RouteMap/GetPatternPaths", {
         method: "POST",
         headers: {
-            "cookie": auth
+            "cookie": auth,
+            "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
         },
         body: bodyData
     })
