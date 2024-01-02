@@ -127,7 +127,7 @@ export interface Vehicle {
     key: string
     location: Location
     name: string
-    passenderCapacity: number
+    passengerCapacity: number
     passengersOnboard: number
     routeKey: string
 }
