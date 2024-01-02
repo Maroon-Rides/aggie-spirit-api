@@ -65,7 +65,7 @@ export interface TimetableServiceInterruption {
 }
 
 export interface NextStopTime {
-    estimatedDepartTimeUtc?: string
+    estimatedDepartTimeUtc: string | null
     isOffRoute: boolean
     isRealtime: boolean
     scheduledDepartTimeUtc: string
@@ -99,7 +99,7 @@ export interface Amenity {
 }
 
 export interface DepartureTime {
-    estimatedDepartTimeUtc?: string
+    estimatedDepartTimeUtc: string | null
     isOffRoute: boolean
     scheduledDepartTimeUtc: string
 }
