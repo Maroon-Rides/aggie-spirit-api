@@ -63,15 +63,19 @@ export async function getVehicles(patternIds, auth) {
 /**
  * Get the next departure times for a stop
  * @param {string} routeId route id to get departure times for
- * @param {string} directionId direction id to get departure times for
+ * @param {string[]} directionIds direction id to get departure times for
  * @param {string} stopCode stop id to get departure times for
  * @param {string} auth authentication to use for the request
  * @returns list of departure times for the given stop
  */
 
-export async function getNextDepartureTimes(routeId, directionId, stopCode, auth) {
-    var bodyData = `routeDirectionKeys%5B0%5D%5BrouteKey%5D=${encodeURIComponent(routeId)}&routeDirectionKeys%5B0%5D%5BdirectionKey%5D=${encodeURIComponent(directionId)}&stopCode=${encodeURIComponent(stopCode)}`
+export async function getNextDepartureTimes(routeId, directionIds, stopCode, auth) {
+    var bodyData = []
+    directionIds.forEach((directionId, i) => {
+        bodyData.push(`routeDirectionKeys%5B${i}%5D%5BrouteKey%5D=${encodeURIComponent(routeId)}&routeDirectionKeys%5B${i}%5D%5BdirectionKey%5D=${encodeURIComponent(directionId)}&stopCode=${encodeURIComponent(stopCode)}`)
+    })
 
+    bodyData = bodyData.join('&')
 
     var res = await fetch("https://aggiespirit.ts.tamu.edu/RouteMap/GetNextDepartTimes", {
         method: "POST",

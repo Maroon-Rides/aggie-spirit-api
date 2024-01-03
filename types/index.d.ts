@@ -304,10 +304,10 @@ declare module 'aggie-spirit-api' {
     /**
      * Get the next departure times for a stop
      * @param {string} routeId route id to get departure times for
-     * @param {string} directionId direction id to get departure times for
+     * @param {string[]} directionIds direction id to get departure times for
      * @param {string} stopCode stop id to get departure times for
      * @param {string} auth authentication to use for the request
      * @returns list of departure times for the given stop
      */
-    export function getNextDepartureTimes(routeId: string, directionId: string, stopCode: string, auth?: string): Promise<NextDepartureTimesResponse>
+    export function getNextDepartureTimes(routeId: string, directionIds: string[], stopCode: string, auth?: string): Promise<NextDepartureTimesResponse>
 }
