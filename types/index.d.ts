@@ -145,7 +145,7 @@ declare module 'aggie-spirit-api' {
     
     export interface PatternPathsResponse {
         routeKey: string
-        pattenPaths: MapPatternPath[]
+        patternPaths: MapPatternPath[]
         vehiclesByDirections: VehicleByDirection[]
     }
     
