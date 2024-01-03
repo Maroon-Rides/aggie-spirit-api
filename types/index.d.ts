@@ -19,6 +19,26 @@ declare module 'aggie-spirit-api' {
         serviceInterruptionKeys: number[]
     }
     
+    export interface MapStop {
+        name: string
+        stopCode: string
+        stopType: number
+    }
+
+    export interface MapPatternPoint {
+        key: string
+        latitude: number
+        longitude: number
+        stop: MapStop | null
+    }
+
+    export interface MapPatternPath {
+        patternKey: string
+        directionKey: string
+        patternPoints: MapPatternPoint[]
+        segmentPaths: any[] // Always blank... leaving any for now
+    }
+
     export interface MapRoute {
         key: string
         name: string
@@ -37,41 +57,65 @@ declare module 'aggie-spirit-api' {
         dailyStartTime: string
         dailyEndTime: string
     }
-    
-    export interface MapStop {
-        name: string
-        stopCode: string
-        stopType: number
+
+    export interface DepartureTime {
+        estimatedDepartTimeUtc: string | null
+        scheduledDepartTimeUtc: string | null
+        isOffRoute: boolean
     }
     
-    export interface MapPatternPoint {
-        key: string
+    export interface RouteDirectionTime {
+        directionKey: string
+        frequencyInfo?: any // Always blank... leaving any for now
+        nextDeparts: DepartureTime[]
+        routeKey: string
+    }
+
+    export interface BusLocation {
+        heading: number
+        lastGpsDate: string
         latitude: number
         longitude: number
-        stop: MapStop | null
+        speed: number
+    }
+
+    export interface Amenity {
+        name: string
+        iconName: string
     }
     
-    export interface MapPatternPath {
-        patternKey: string
+    export interface Vehicle {
+        amenities: Amenity[]
         directionKey: string
-        patternPoints: MapPatternPoint[]
-        segmentPaths: any[] // Always blank... leaving any for now
+        directionName: string
+        isExtraTrip: boolean
+        key: string
+        location: BusLocation
+        name: string
+        passengerCapacity: number
+        passengersOnboard: number
+        routeKey: string
     }
-    
+
+    export interface VehicleByDirection {
+        directionKey: string
+        vehicles: Vehicle[]
+    }
+
+    export interface NextStopTime {
+        estimatedDepartTimeUtc: string | null
+        scheduledDepartTimeUtc: string | null
+        isOffRoute: boolean
+        isRealtime: boolean
+    }
+
     export interface TimetableServiceInterruption {
         externalServiceInterruptionKey: string
         serviceInterruptionName: string
         serviceInterruptionTimeRange: string
         isStopClosed: boolean
     }
-    
-    export interface NextStopTime {
-        estimatedDepartTimeUtc: string | null
-        isOffRoute: boolean
-        isRealtime: boolean
-        scheduledDepartTimeUtc: string
-    }
-    
+
     export interface TimetableNearbyStops {
         directionKey: string
         directionName: string
@@ -84,7 +128,7 @@ declare module 'aggie-spirit-api' {
         serviceInterruptions: TimetableServiceInterruption[]
         amenities: Amenity[]
     }
-    
+
     export interface TimetableRoute {
         routeKey: string
         routeNumber: string
@@ -93,62 +137,7 @@ declare module 'aggie-spirit-api' {
         distance: number
         nearbyStops: TimetableNearbyStops[]
     }
-    
-    export interface Amenity {
-        name: string
-        iconName: string
-    }
-    
-    export interface DepartureTime {
-        estimatedDepartTimeUtc: string | null
-        isOffRoute: boolean
-        scheduledDepartTimeUtc: string
-    }
-    
-    export interface RouteDirectionTime {
-        directionKey: string
-        frequencyInfo: any // Always blank... leaving any for now
-        nextDeparts: DepartureTime[]
-        routeKey: string
-    }
-    
-    export interface Location {
-        heading: number
-        lastGpsDate: string
-        latitude: number
-        longitude: number
-        speed: number
-    }
-    
-    export interface Vehicle {
-        amenities: Amenity[]
-        directionKey: string
-        directionName: string
-        isExtraTrip: boolean
-        key: string
-        location: Location
-        name: string
-        passengerCapacity: number
-        passengersOnboard: number
-        routeKey: string
-    }
-    
-    export interface VehiclesByDirection {
-        directionKey: string
-        vehicles: Vehicle[]
-    }
-    
-    export interface NearbyRoutesResponse {
-        longitude: number,
-        latutude: number,
-        stopCode: any, // always blank... leaving any for now
-        busStopRouteResults: any[], // always blank... leaving [any] for now
-        routeResults: TimetableRoute[],
-        nextMinRadius: number,
-        nextMaxRadius: number,
-        canLoadMore: boolean
-    }
-    
+
     export interface BaseDataResponse {
         routes: MapRoute[]
         serviceInterruptions: MapServiceInterruption[]
@@ -181,6 +170,17 @@ declare module 'aggie-spirit-api' {
         amenities: Amenity[]
         date: string
         routeStopScheduleSchedules: any[] // TODO: determine datatype
+    }
+
+    export interface NearbyRoutesResponse {
+        longitude: number,
+        latutude: number,
+        stopCode: any, // always blank... leaving any for now
+        busStopRouteResults: any[], // always blank... leaving [any] for now
+        routeResults: TimetableRoute[],
+        nextMinRadius: number,
+        nextMaxRadius: number,
+        canLoadMore: boolean
     }
     
     // Type Definitions: src/connection.js
