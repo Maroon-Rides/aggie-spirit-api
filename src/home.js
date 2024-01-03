@@ -85,7 +85,7 @@ export async function getStopSchedules(stopCode, date, auth) {
         date: date
     }
 
-    var res = await fetch("https://aggiespirit.ts.tamu.edu/Home/GetStopSchedules", {
+    var res = await fetch("https://aggiespirit.ts.tamu.edu/Schedule/GetStopSchedules", {
         method: "POST",
         headers: {
             "cookie": auth,
@@ -99,7 +99,7 @@ export async function getStopSchedules(stopCode, date, auth) {
 
 /**
  * Gets the schedule estimates for a given stops(s)
- * @param {string[]} stopCode list of stop ids to get schedules for
+ * @param {string} stopCode list of stop ids to get schedules for
  * @param {Date} date date to get schedules for
  * @param {string} auth authentication to use for the request
  * @returns list of schedules for the given stops
@@ -112,7 +112,7 @@ export async function getStopEstimates(stopCode, date, auth) {
         date: date
     }
 
-    var res = await fetch("https://aggiespirit.ts.tamu.edu/Home/GetStopSchedules", {
+    var res = await fetch("https://aggiespirit.ts.tamu.edu/Schedule/GetStopEstimates", {
         method: "POST",
         headers: {
             "cookie": auth,

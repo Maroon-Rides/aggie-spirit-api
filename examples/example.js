@@ -1,6 +1,5 @@
-import { getActiveRoutes, getAuthentication, getBaseData, getNearbyRoutes, getPatternPaths } from "../src/index.js";
+import { getStopEstimates, getAuthentication, getBaseData, getNearbyRoutes, getPatternPaths } from "../src/index.js";
 
-getNearbyRoutes()
-    .then((res) => {
-        console.log(res)
-    })
+getAuthentication().then(async (auth) => {
+    console.log(await getStopEstimates("0400", new Date(), auth))
+})
