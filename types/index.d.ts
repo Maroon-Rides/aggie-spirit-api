@@ -233,21 +233,21 @@ declare module 'aggie-spirit-api' {
     
     /**
      * Gets the schedules for a given stops(s)
-     * @param {string[]} stopCode list of stop ids to get schedules for
+     * @param {string} stopCode list of stop ids to get schedules for
      * @param {Date} date date to get schedules for
      * @param {string} auth authentication to use for the request
      * @returns list of schedules for the given stops
      */
-    export function getStopSchedules(stopCode: string[], date: Date, auth?: string): Promise<StopSchedulesResponse>
+    export function getStopSchedules(stopCode: string, date: Date, auth?: string): Promise<StopSchedulesResponse>
      
     /**
      * Gets the schedule estimates for a given stops(s)
-     * @param {string[]} stopCode list of stop ids to get schedules for
+     * @param {string} stopCode list of stop ids to get schedules for
      * @param {Date} date date to get schedules for
      * @param {string} auth authentication to use for the request
      * @returns list of schedules for the given stops
      */
-    export function getStopEstimates(stopCode: string[], date: Date, auth?:string): Promise<StopEstimatesResponse>
+    export function getStopEstimates(stopCode: string, date: Date, auth?:string): Promise<StopEstimatesResponse>
     
     
     
@@ -281,9 +281,9 @@ declare module 'aggie-spirit-api' {
      * Get the next departure times for a stop
      * @param {string} routeId route id to get departure times for
      * @param {string} directionId direction id to get departure times for
-     * @param {string} stopId stop id to get departure times for
+     * @param {string} stopCode stop id to get departure times for
      * @param {string} auth authentication to use for the request
      * @returns list of departure times for the given stop
      */
-    export function getNextDepartureTimes(routeId: string, directionId: string, stopId: string, auth?: string): Promise<NextDepartureTimesResponse>
+    export function getNextDepartureTimes(routeId: string, directionId: string, stopCode: string, auth?: string): Promise<NextDepartureTimesResponse>
 }

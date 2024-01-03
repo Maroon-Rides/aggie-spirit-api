@@ -18,7 +18,7 @@ export async function getBaseData(auth) {
 
 /**
  * Gets the route info for given route(s)
- * @param {[string]} patternIds route ids to get info for
+ * @param {string[]} patternIds route ids to get info for
  * @param {string} auth authentication to use for the request
  * @returns route info for the given route(s)
  */
@@ -40,7 +40,7 @@ export async function getPatternPaths(patternIds, auth) {
 
 /**
  * Get the active vehicles on given route(s)
- * @param {[string]} patternIds 
+ * @param {string[]} patternIds 
  * @param {*} auth authentication to use for the request
  * @returns list of active vehicles on the given route(s)
  */
@@ -64,13 +64,13 @@ export async function getVehicles(patternIds, auth) {
  * Get the next departure times for a stop
  * @param {string} routeId route id to get departure times for
  * @param {string} directionId direction id to get departure times for
- * @param {string} stopId stop id to get departure times for
+ * @param {string} stopCode stop id to get departure times for
  * @param {string} auth authentication to use for the request
  * @returns list of departure times for the given stop
  */
 
-export async function getNextDepartTimes(routeId, directionId, stopId, auth) {
-    var bodyData = `routeDirectionKeys%5B0%5D%5BrouteKey%5D=${encodeURIComponent(routeId)}&routeDirectionKeys%5B0%5D%5BdirectionKey%5D=${encodeURIComponent(directionId)}&stopCode=${encodeURIComponent(stopId)}`
+export async function getNextDepartTimes(routeId, directionId, stopCode, auth) {
+    var bodyData = `routeDirectionKeys%5B0%5D%5BrouteKey%5D=${encodeURIComponent(routeId)}&routeDirectionKeys%5B0%5D%5BdirectionKey%5D=${encodeURIComponent(directionId)}&stopCode=${encodeURIComponent(stopCode)}`
 
 
     var res = await fetch("https://aggiespirit.ts.tamu.edu/RouteMap/GetNextDepartTimes", {

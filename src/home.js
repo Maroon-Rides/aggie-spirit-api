@@ -4,7 +4,7 @@ import moment from "moment"
 /**
  * Get the currently active routes
  * @param {string} auth Authentication to use for the request
- * @returns {[string]} list of route names ("01", "04", etc.)
+ * @returns {string[]} list of route names ("01", "04", etc.)
  */
 export async function getActiveRoutes(auth) {
     var res = await fetch("https://aggiespirit.ts.tamu.edu/Home/GetActiveRoutes", {
@@ -19,7 +19,7 @@ export async function getActiveRoutes(auth) {
 
 /**
  * Gets the nearby routes for a given location, with optional radius
- * @param {[string]} favRoutes list of favorited routes
+ * @param {string[]} favRoutes list of favorited routes
  * @param {number} latitude GPS latitude
  * @param {number} longitude GPS longitude
  * @param {number} maxRadius max radius to search
@@ -49,7 +49,7 @@ export async function getNearbyRoutes(favRoutes=[], latitude=30.6138, longitude=
 
 /**
  * get the next stop times for a given route(s)
- * @param {[string]} routes route ids to get stop times for
+ * @param {string[]} routes route ids to get stop times for
  * @param {string} auth authentication to use for the request
  * @returns list of stop times for the given routes
  */
@@ -72,7 +72,7 @@ export async function getNextStopTimes(routes, auth) {
 
 /**
  * Gets the schedules for a given stops(s)
- * @param {[string]} stopCode list of stop ids to get schedules for
+ * @param {string} stopCode list of stop ids to get schedules for
  * @param {Date} date date to get schedules for
  * @param {string} auth authentication to use for the request
  * @returns list of schedules for the given stops
@@ -81,7 +81,7 @@ export async function getStopSchedules(stopCode, date, auth) {
     date = moment(date).format("YYYY-MM-DD")
 
     var payload = {
-        stopCode: stopId,
+        stopCode: stopCode,
         date: date
     }
 
@@ -99,7 +99,7 @@ export async function getStopSchedules(stopCode, date, auth) {
 
 /**
  * Gets the schedule estimates for a given stops(s)
- * @param {[string]} stopCode list of stop ids to get schedules for
+ * @param {string[]} stopCode list of stop ids to get schedules for
  * @param {Date} date date to get schedules for
  * @param {string} auth authentication to use for the request
  * @returns list of schedules for the given stops
@@ -108,7 +108,7 @@ export async function getStopEstimates(stopCode, date, auth) {
     date = moment(date).format("YYYY-MM-DD")
 
     var payload = {
-        stopCode: stopId,
+        stopCode: stopCode,
         date: date
     }
 
