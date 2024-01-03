@@ -4,7 +4,8 @@
   "description": "JS implementation of the Texas A&M Bus API",
   "main": "src/index.js",
   "files": [
-    "src"
+    "src",
+    "types"
   ],
   "type": "module",
   "scripts": {
