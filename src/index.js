@@ -6,7 +6,7 @@ export {
     getBaseData,
     getPatternPaths,
     getVehicles,
-    getNextDepartTimes
+    getNextDepartureTimes
 } from "./map.js"
 
 export {
