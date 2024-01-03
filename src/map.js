@@ -69,7 +69,7 @@ export async function getVehicles(patternIds, auth) {
  * @returns list of departure times for the given stop
  */
 
-export async function getNextDepartTimes(routeId, directionId, stopCode, auth) {
+export async function getNextDepartureTimes(routeId, directionId, stopCode, auth) {
     var bodyData = `routeDirectionKeys%5B0%5D%5BrouteKey%5D=${encodeURIComponent(routeId)}&routeDirectionKeys%5B0%5D%5BdirectionKey%5D=${encodeURIComponent(directionId)}&stopCode=${encodeURIComponent(stopCode)}`
 
 
