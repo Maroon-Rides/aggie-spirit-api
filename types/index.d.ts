@@ -1,32 +1,33 @@
 // Type Definitions: API Return Data
 declare module 'aggie-spirit-api' {
-    export interface PatternList {
+    export interface MapPatternList {
         key: string
         isDisplay: boolean
     }
     
-    export interface Direction {
+    export interface MapDirection {
         key: string
         name: string
     }
     
-    export interface DirectionList {
-        direction: Direction
+    export interface MapDirectionList {
+        direction: MapDirection
         destination: string
         lineColor: string
         textColor: string
-        patternList: PatternList
+        patternList: MapPatternList
         serviceInterruptionKeys: number[]
     }
     
-    export interface Route {
+    export interface MapRoute {
         key: string
         name: string
         shortName: string
-        directionList: DirectionList[]
+        directionList: MapDirectionList[]
+        patternPaths: MapPatternPath[]
     }
     
-    export interface ServiceInterruption {
+    export interface MapServiceInterruption {
         key: string
         name: string
         description: string
@@ -37,23 +38,23 @@ declare module 'aggie-spirit-api' {
         dailyEndTime: string
     }
     
-    export interface Stop {
+    export interface MapStop {
         name: string
         stopCode: string
         stopType: number
     }
     
-    export interface PatternPoint {
+    export interface MapPatternPoint {
         key: string
         latitude: number
         longitude: number
-        stop: Stop | null
+        stop: MapStop | null
     }
     
-    export interface PatternPath {
+    export interface MapPatternPath {
         patternKey: string
         directionKey: string
-        patternPoints: PatternPoint[]
+        patternPoints: MapPatternPoint[]
         segmentPaths: any[] // Always blank... leaving any for now
     }
     
@@ -149,13 +150,13 @@ declare module 'aggie-spirit-api' {
     }
     
     export interface BaseDataResponse {
-        routes: Route[]
-        serviceInterruptions: ServiceInterruption[]
+        routes: MapRoute[]
+        serviceInterruptions: MapServiceInterruption[]
     }
     
     export interface PatternPathsResponse {
         routeKey: string
-        pattenPaths: PatternPath[]
+        pattenPaths: MapPatternPath[]
         vehiclesByDirections: VehiclesByDirection[]
     }
     
@@ -181,8 +182,6 @@ declare module 'aggie-spirit-api' {
         date: string
         routeStopScheduleSchedules: any[] // TODO: determine datatype
     }
-
-    export 
     
     // Type Definitions: src/connection.js
     
@@ -203,7 +202,7 @@ declare module 'aggie-spirit-api' {
      * @param {string} auth Authentication to use for the request
      * @returns {[string]} list of route names ("01", "04", etc.)
      */
-    export declare function getActiveRoutes(auth: string): Promise<[string]>
+    export declare function getActiveRoutes(auth?: string): Promise<[string]>
     
     /**
      * Gets the nearby routes for a given location, with optional radius
@@ -221,7 +220,7 @@ declare module 'aggie-spirit-api' {
                                         longitude: number, 
                                         maxRadius?: number, 
                                         minRadius?: number, 
-                                        auth: string
+                                        auth?: string
                                     ): Promise<NearbyRoutesResponse>
     
     /**
@@ -230,7 +229,7 @@ declare module 'aggie-spirit-api' {
      * @param {string} auth authentication to use for the request
      * @returns list of stop times for the given routes
      */
-    export declare function getNextStopTimes(routes: [string], auth: string): Promise<[TimetableRoute]>
+    export declare function getNextStopTimes(routes: [string], auth?: string): Promise<[TimetableRoute]>
     
     /**
      * Gets the schedules for a given stops(s)
@@ -239,7 +238,7 @@ declare module 'aggie-spirit-api' {
      * @param {string} auth authentication to use for the request
      * @returns list of schedules for the given stops
      */
-    export declare function getStopSchedules(stopCode: [string], date: Date, auth: string): Promise<StopSchedulesResponse>
+    export declare function getStopSchedules(stopCode: [string], date: Date, auth?: string): Promise<any>
      
     /**
      * Gets the schedule estimates for a given stops(s)
@@ -248,7 +247,7 @@ declare module 'aggie-spirit-api' {
      * @param {string} auth authentication to use for the request
      * @returns list of schedules for the given stops
      */
-    export declare function getStopEstimates(stopCode: [string], date: Date, auth: string): Promise<StopEstimatesResponse>
+    export declare function getStopEstimates(stopCode: [string], date: Date, auth?:string): Promise<any>
     
     
     
@@ -259,7 +258,7 @@ declare module 'aggie-spirit-api' {
      * @param {string} auth authentication to use for the request
      * @returns base data for the map
      */
-    export declare function getBaseData(auth: string): Promise<BaseDataResponse>
+    export declare function getBaseData(auth?: string): Promise<BaseDataResponse>
     
     /**
      * Gets the route info for given route(s)
@@ -267,7 +266,7 @@ declare module 'aggie-spirit-api' {
      * @param {string} auth authentication to use for the request
      * @returns route info for the given route(s)
      */
-    export function getPatternPaths(patternIds: [string], auth: string): Promise<PatternPathsResponse>
+    export function getPatternPaths(patternIds: [string], auth?: string): Promise<PatternPathsResponse>
     
     /**
      * Get the active vehicles on given route(s)
@@ -275,7 +274,7 @@ declare module 'aggie-spirit-api' {
      * @param {*} auth authentication to use for the request
      * @returns list of active vehicles on the given route(s)
      */
-    export function getVehicles(patternIds: [string], auth: string): Promise<VehicleResponse[]>
+    export function getVehicles(patternIds: [string], auth?: string): Promise<VehicleResponse[]>
     
     
     /**
@@ -286,5 +285,5 @@ declare module 'aggie-spirit-api' {
      * @param {string} auth authentication to use for the request
      * @returns list of departure times for the given stop
      */
-    export function getNextDepartureTimes(routeId: string, directionId: string, stopId: string, auth: string): Promise<NextDepartureTimesResponse>
+    export function getNextDepartureTimes(routeId: string, directionId: string, stopId: string, auth?: string): Promise<NextDepartureTimesResponse>
 }
