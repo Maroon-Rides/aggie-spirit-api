@@ -266,7 +266,7 @@ declare module 'aggie-spirit-api' {
      * @param {string} auth authentication to use for the request
      * @returns route info for the given route(s)
      */
-    export function getPatternPaths(patternIds: string[], auth?: string): Promise<[PatternPathsResponse]>
+    export function getPatternPaths(patternIds: string[], auth?: string): Promise<PatternPathsResponse[]>
     
     /**
      * Get the active vehicles on given route(s)
