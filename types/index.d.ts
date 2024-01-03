@@ -167,7 +167,7 @@ declare module 'aggie-spirit-api' {
     
     export interface VehicleResponse {
         routeKey: string
-        vehiclesByDirection: VehiclesByDirection[]
+        vehiclesByDirections: VehiclesByDirection[]
     }
 
     export interface StopEstimatesResponse {
