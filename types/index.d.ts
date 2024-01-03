@@ -160,16 +160,40 @@ declare module 'aggie-spirit-api' {
         vehiclesByDirections: VehicleByDirection[]
     }
 
+    export interface StopTime {
+        scheduledDepartTimeUtc: string
+        estimatedDepartTimeUtc: string
+        isRealtime: boolean
+        tripPointId: string
+        isLastPoint: boolean | null
+        isCancelled: boolean
+        isOffRoute: boolean
+    }
+
+    export interface RouteStopSchedule {
+        routeName: string
+        routeNumber: string
+        directionName: string
+        stopTimes: StopTime[]
+        frequencyInfo:any | null
+        hasTrips:any | null
+        hasSchedule:any | null
+        isEndOfRoute: bool | null
+        isTemporaryStopOnly: bool | null
+        isClosedRegularStop: bool | null
+        serviceInterruptions: any | null
+    }
+
     export interface StopEstimatesResponse {
         amenities: Amenity[]
         date: string
-        routeStopScheduleEstimates: any[] // TODO: determine datatype
+        routeStopSchedules: RouteStopSchedule[] // TODO: determine datatype
     }
 
     export interface StopSchedulesResponse {
         amenities: Amenity[]
         date: string
-        routeStopScheduleSchedules: any[] // TODO: determine datatype
+        routeStopSchedules: RouteStopSchedule[] // TODO: determine datatype
     }
 
     export interface NearbyRoutesResponse {
