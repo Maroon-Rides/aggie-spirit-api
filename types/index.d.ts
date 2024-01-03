@@ -146,7 +146,7 @@ declare module 'aggie-spirit-api' {
     export interface PatternPathsResponse {
         routeKey: string
         pattenPaths: MapPatternPath[]
-        vehiclesByDirections: VehiclesByDirection[]
+        vehiclesByDirections: VehicleByDirection[]
     }
     
     export interface NextDepartureTimesResponse {
@@ -157,7 +157,7 @@ declare module 'aggie-spirit-api' {
     
     export interface VehicleResponse {
         routeKey: string
-        vehiclesByDirections: VehiclesByDirection[]
+        vehiclesByDirections: VehicleByDirection[]
     }
 
     export interface StopEstimatesResponse {
@@ -191,7 +191,7 @@ declare module 'aggie-spirit-api' {
      * If no auth is passed, the function will attempt to retreive it.
      * @returns {string} - the header for authentication
      */
-    export declare function getAuthentication(): Promise<string>
+    export function getAuthentication(): Promise<string>
     
     
     
@@ -202,7 +202,7 @@ declare module 'aggie-spirit-api' {
      * @param {string} auth Authentication to use for the request
      * @returns {string[]} list of route names ("01", "04", etc.)
      */
-    export declare function getActiveRoutes(auth?: string): Promise<string[]>
+    export function getActiveRoutes(auth?: string): Promise<string[]>
     
     /**
      * Gets the nearby routes for a given location, with optional radius
@@ -214,7 +214,7 @@ declare module 'aggie-spirit-api' {
      * @param {string} auth authentication to use for the request
      * @returns list of routes that satisy given constraints
      */
-    export declare function getNearbyRoutes(
+    export function getNearbyRoutes(
                                         favRoutes: string[], 
                                         latitude: number, 
                                         longitude: number, 
@@ -229,7 +229,7 @@ declare module 'aggie-spirit-api' {
      * @param {string} auth authentication to use for the request
      * @returns list of stop times for the given routes
      */
-    export declare function getNextStopTimes(routes: string[], auth?: string): Promise<TimetableRoute[]>
+    export function getNextStopTimes(routes: string[], auth?: string): Promise<TimetableRoute[]>
     
     /**
      * Gets the schedules for a given stops(s)
@@ -238,7 +238,7 @@ declare module 'aggie-spirit-api' {
      * @param {string} auth authentication to use for the request
      * @returns list of schedules for the given stops
      */
-    export declare function getStopSchedules(stopCode: string[], date: Date, auth?: string): Promise<any>
+    export function getStopSchedules(stopCode: string[], date: Date, auth?: string): Promise<StopSchedulesResponse>
      
     /**
      * Gets the schedule estimates for a given stops(s)
@@ -247,7 +247,7 @@ declare module 'aggie-spirit-api' {
      * @param {string} auth authentication to use for the request
      * @returns list of schedules for the given stops
      */
-    export declare function getStopEstimates(stopCode: string[], date: Date, auth?:string): Promise<any>
+    export function getStopEstimates(stopCode: string[], date: Date, auth?:string): Promise<StopEstimatesResponse>
     
     
     
@@ -258,7 +258,7 @@ declare module 'aggie-spirit-api' {
      * @param {string} auth authentication to use for the request
      * @returns base data for the map
      */
-    export declare function getBaseData(auth?: string): Promise<BaseDataResponse>
+    export function getBaseData(auth?: string): Promise<BaseDataResponse>
     
     /**
      * Gets the route info for given route(s)
@@ -266,7 +266,7 @@ declare module 'aggie-spirit-api' {
      * @param {string} auth authentication to use for the request
      * @returns route info for the given route(s)
      */
-    export function getPatternPaths(patternIds: string[], auth?: string): Promise<PatternPathsResponse>
+    export function getPatternPaths(patternIds: string[], auth?: string): Promise<[PatternPathsResponse]>
     
     /**
      * Get the active vehicles on given route(s)
