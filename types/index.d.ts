@@ -1,32 +1,32 @@
 // Type Definitions: API Return Data
 declare module 'aggie-spirit-api' {
-    export interface MapPatternList {
+    export interface PatternList {
         key: string
         isDisplay: boolean
     }
     
-    export interface MapDirection {
+    export interface Direction {
         key: string
         name: string
     }
     
-    export interface MapDirectionList {
-        direction: MapDirection
+    export interface DirectionList {
+        direction: Direction
         destination: string
         lineColor: string
         textColor: string
-        patternList: MapPatternList
+        patternList: PatternList
         serviceInterruptionKeys: number[]
     }
     
-    export interface MapRoute {
+    export interface Route {
         key: string
         name: string
         shortName: string
-        directionList: MapDirectionList[]
+        directionList: DirectionList[]
     }
     
-    export interface MapServiceInterruption {
+    export interface ServiceInterruption {
         key: string
         name: string
         description: string
@@ -37,23 +37,23 @@ declare module 'aggie-spirit-api' {
         dailyEndTime: string
     }
     
-    export interface MapStop {
+    export interface Stop {
         name: string
         stopCode: string
         stopType: number
     }
     
-    export interface MapPatternPoint {
+    export interface PatternPoint {
         key: string
         latitude: number
         longitude: number
-        stop: MapStop | null
+        stop: Stop | null
     }
     
-    export interface MapPatternPath {
+    export interface PatternPath {
         patternKey: string
         directionKey: string
-        patternPoints: MapPatternPoint[]
+        patternPoints: PatternPoint[]
         segmentPaths: any[] // Always blank... leaving any for now
     }
     
@@ -149,13 +149,13 @@ declare module 'aggie-spirit-api' {
     }
     
     export interface BaseDataResponse {
-        routes: MapRoute[]
-        serviceInterruptions: MapServiceInterruption[]
+        routes: Route[]
+        serviceInterruptions: ServiceInterruption[]
     }
     
     export interface PatternPathsResponse {
         routeKey: string
-        pattenPaths: MapPatternPath[]
+        pattenPaths: PatternPath[]
         vehiclesByDirections: VehiclesByDirection[]
     }
     
@@ -169,6 +169,20 @@ declare module 'aggie-spirit-api' {
         routeKey: string
         vehiclesByDirection: VehiclesByDirection[]
     }
+
+    export interface StopEstimatesResponse {
+        amenities: Amenity[]
+        date: string
+        routeStopScheduleEstimates: any[] // TODO: determine datatype
+    }
+
+    export interface StopSchedulesResponse {
+        amenities: Amenity[]
+        date: string
+        routeStopScheduleSchedules: any[] // TODO: determine datatype
+    }
+
+    export 
     
     // Type Definitions: src/connection.js
     
@@ -225,7 +239,7 @@ declare module 'aggie-spirit-api' {
      * @param {string} auth authentication to use for the request
      * @returns list of schedules for the given stops
      */
-    export declare function getStopSchedules(stopCode: [string], date: Date, auth?: string): Promise<any>
+    export declare function getStopSchedules(stopCode: [string], date: Date, auth?: string): Promise<StopSchedulesResponse>
      
     /**
      * Gets the schedule estimates for a given stops(s)
@@ -234,7 +248,7 @@ declare module 'aggie-spirit-api' {
      * @param {string} auth authentication to use for the request
      * @returns list of schedules for the given stops
      */
-    export declare function getStopEstimates(stopCode: [string], date: Date, auth?:string): Promise<any>
+    export declare function getStopEstimates(stopCode: [string], date: Date, auth?:string): Promise<StopEstimatesResponse>
     
     
     
