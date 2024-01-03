@@ -143,7 +143,7 @@ declare module 'aggie-spirit-api' {
         latutude: number,
         stopCode: any, // always blank... leaving any for now
         busStopRouteResults: any[], // always blank... leaving [any] for now
-        routeResults: [TimetableRoute],
+        routeResults: TimetableRoute[],
         nextMinRadius: number,
         nextMaxRadius: number,
         canLoadMore: boolean
@@ -200,13 +200,13 @@ declare module 'aggie-spirit-api' {
     /**
      * Get the currently active routes
      * @param {string} auth Authentication to use for the request
-     * @returns {[string]} list of route names ("01", "04", etc.)
+     * @returns {string[]} list of route names ("01", "04", etc.)
      */
-    export declare function getActiveRoutes(auth?: string): Promise<[string]>
+    export declare function getActiveRoutes(auth?: string): Promise<string[]>
     
     /**
      * Gets the nearby routes for a given location, with optional radius
-     * @param {[string]} favRoutes list of favorited routes
+     * @param {string[]} favRoutes list of favorited routes
      * @param {number} latitude GPS latitude
      * @param {number} longitude GPS longitude
      * @param {number} maxRadius max radius to search
@@ -215,7 +215,7 @@ declare module 'aggie-spirit-api' {
      * @returns list of routes that satisy given constraints
      */
     export declare function getNearbyRoutes(
-                                        favRoutes: [string], 
+                                        favRoutes: string[], 
                                         latitude: number, 
                                         longitude: number, 
                                         maxRadius?: number, 
@@ -225,29 +225,29 @@ declare module 'aggie-spirit-api' {
     
     /**
      * get the next stop times for a given route(s)
-     * @param {[string]} routes route ids to get stop times for
+     * @param {string[]} routes route ids to get stop times for
      * @param {string} auth authentication to use for the request
      * @returns list of stop times for the given routes
      */
-    export declare function getNextStopTimes(routes: [string], auth?: string): Promise<[TimetableRoute]>
+    export declare function getNextStopTimes(routes: string[], auth?: string): Promise<TimetableRoute[]>
     
     /**
      * Gets the schedules for a given stops(s)
-     * @param {[string]} stopCode list of stop ids to get schedules for
+     * @param {string[]} stopCode list of stop ids to get schedules for
      * @param {Date} date date to get schedules for
      * @param {string} auth authentication to use for the request
      * @returns list of schedules for the given stops
      */
-    export declare function getStopSchedules(stopCode: [string], date: Date, auth?: string): Promise<any>
+    export declare function getStopSchedules(stopCode: string[], date: Date, auth?: string): Promise<any>
      
     /**
      * Gets the schedule estimates for a given stops(s)
-     * @param {[string]} stopCode list of stop ids to get schedules for
+     * @param {string[]} stopCode list of stop ids to get schedules for
      * @param {Date} date date to get schedules for
      * @param {string} auth authentication to use for the request
      * @returns list of schedules for the given stops
      */
-    export declare function getStopEstimates(stopCode: [string], date: Date, auth?:string): Promise<any>
+    export declare function getStopEstimates(stopCode: string[], date: Date, auth?:string): Promise<any>
     
     
     
@@ -262,19 +262,19 @@ declare module 'aggie-spirit-api' {
     
     /**
      * Gets the route info for given route(s)
-     * @param {[string]} patternIds route ids to get info for
+     * @param {string[]} patternIds route ids to get info for
      * @param {string} auth authentication to use for the request
      * @returns route info for the given route(s)
      */
-    export function getPatternPaths(patternIds: [string], auth?: string): Promise<PatternPathsResponse>
+    export function getPatternPaths(patternIds: string[], auth?: string): Promise<PatternPathsResponse>
     
     /**
      * Get the active vehicles on given route(s)
-     * @param {[string]} patternIds 
+     * @param {string[]} patternIds 
      * @param {*} auth authentication to use for the request
      * @returns list of active vehicles on the given route(s)
      */
-    export function getVehicles(patternIds: [string], auth?: string): Promise<VehicleResponse[]>
+    export function getVehicles(patternIds: string[], auth?: string): Promise<VehicleResponse[]>
     
     
     /**
