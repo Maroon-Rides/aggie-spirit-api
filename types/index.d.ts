@@ -1,6 +1,6 @@
 // Type Definitions: API Return Data
 declare module 'aggie-spirit-api' {
-    export interface MapPatternList {
+    export interface MapPattern {
         key: string
         isDisplay: boolean
     }
@@ -15,7 +15,7 @@ declare module 'aggie-spirit-api' {
         destination: string
         lineColor: string
         textColor: string
-        patternList: MapPatternList
+        patternList: MapPattern[]
         serviceInterruptionKeys: number[]
     }
     
