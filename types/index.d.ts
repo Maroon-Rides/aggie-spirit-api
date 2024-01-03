@@ -151,7 +151,7 @@ declare module 'aggie-spirit-api' {
     
     export interface NextDepartureTimesResponse {
         amenities: Amenity[]
-        routeDirectonTimes: RouteDirectionTime[]
+        routeDirectionTimes: RouteDirectionTime[]
         stopCode: string
     }
     
