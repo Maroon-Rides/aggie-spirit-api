@@ -175,12 +175,12 @@ declare module 'aggie-spirit-api' {
         routeNumber: string
         directionName: string
         stopTimes: StopTime[]
-        frequencyInfo:any | null
-        hasTrips:any | null
-        hasSchedule:any | null
-        isEndOfRoute: bool | null
-        isTemporaryStopOnly: bool | null
-        isClosedRegularStop: bool | null
+        frequencyInfo: any | null
+        hasTrips: any | null
+        hasSchedule: any | null
+        isEndOfRoute: boolean | null
+        isTemporaryStopOnly: boolean | null
+        isClosedRegularStop: boolean | null
         serviceInterruptions: any | null
     }
 
