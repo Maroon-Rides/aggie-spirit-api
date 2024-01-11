@@ -162,7 +162,7 @@ declare module 'aggie-spirit-api' {
 
     export interface StopTime {
         scheduledDepartTimeUtc: string
-        estimatedDepartTimeUtc?: string
+        estimatedDepartTimeUtc: string | null
         isRealtime: boolean
         tripPointId: string
         isLastPoint: boolean | null
