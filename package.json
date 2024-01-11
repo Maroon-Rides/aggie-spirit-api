@@ -1,6 +1,6 @@
 {
   "name": "aggie-spirit-api",
-  "version": "0.3.0",
+  "version": "1.0.0",
   "description": "JS implementation of the Texas A&M Bus API",
   "main": "src/index.js",
   "files": [
@@ -14,14 +14,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/bwees/aggie-spirit-api.git"
+    "url": "git+https://github.com/Reveille-Rides/aggie-spirit-api.git"
   },
-  "author": "bwees",
+  "author": "Reveille-Rides",
   "license": "Apache-2.0",
   "bugs": {
-    "url": "https://github.com/bwees/aggie-spirit-api/issues"
+    "url": "https://github.com/Reveille-Rides/aggie-spirit-api/issues"
   },
-  "homepage": "https://github.com/bwees/aggie-spirit-api#readme",
+  "homepage": "https://github.com/Reveille-Rides/aggie-spirit-api#readme",
   "dependencies": {
     "moment": "^2.29.4"
   },
