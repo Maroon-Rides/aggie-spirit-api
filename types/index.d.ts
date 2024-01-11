@@ -121,20 +121,20 @@ declare module 'aggie-spirit-api' {
         directionName: string
         distance: number
         stopCode: string
-        stopName: string
+        stopName: string | null
         isTemporary: boolean
         nextStopTimes: NextStopTime[]
-        frequencyInfo: any // Always blank... leaving any for now
+        frequencyInfo: any | null // Always blank... leaving any for now
         serviceInterruptions: TimetableServiceInterruption[]
         amenities: Amenity[]
     }
 
     export interface TimetableRoute {
         routeKey: string
-        routeNumber: string
-        routeName: string
-        distanceString: string
-        distance: number
+        routeNumber: string | null
+        routeName: string | null
+        distanceString: string | null
+        distance: number | null
         nearbyStops: TimetableNearbyStops[]
     }
 
@@ -162,7 +162,7 @@ declare module 'aggie-spirit-api' {
 
     export interface StopTime {
         scheduledDepartTimeUtc: string
-        estimatedDepartTimeUtc: string
+        estimatedDepartTimeUtc?: string
         isRealtime: boolean
         tripPointId: string
         isLastPoint: boolean | null
@@ -175,12 +175,12 @@ declare module 'aggie-spirit-api' {
         routeNumber: string
         directionName: string
         stopTimes: StopTime[]
-        frequencyInfo: any | null
-        hasTrips: any | null
-        hasSchedule: any | null
-        isEndOfRoute: boolean | null
-        isTemporaryStopOnly: boolean | null
-        isClosedRegularStop: boolean | null
+        frequencyInfo: any
+        hasTrips: boolean
+        hasSchedule: boolean
+        isEndOfRoute: boolean
+        isTemporaryStopOnly: boolean
+        isClosedRegularStop: boolean
         serviceInterruptions: any | null
     }
 
