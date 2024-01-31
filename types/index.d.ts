@@ -44,7 +44,6 @@ declare module 'aggie-spirit-api' {
         name: string
         shortName: string
         directionList: MapDirectionList[]
-        patternPaths: MapPatternPath[]
     }
     
     export interface MapServiceInterruption {
