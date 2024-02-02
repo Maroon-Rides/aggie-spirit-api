@@ -1,4 +1,3 @@
-import { getAuthentication } from "./connection.js"
 
 /**
  * Get the initial data for the map

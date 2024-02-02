@@ -205,6 +205,13 @@ declare module 'aggie-spirit-api' {
         nextMaxRadius: number,
         canLoadMore: boolean
     }
+
+    export interface FoundStop {
+        stopCode: string
+        stopName: string
+        longitude: number
+        latitude: number
+    }
     
     // Type Definitions: src/connection.js
     
@@ -309,4 +316,12 @@ declare module 'aggie-spirit-api' {
      * @returns list of departure times for the given stop
      */
     export function getNextDepartureTimes(routeId: string, directionIds: string[], stopCode: string, auth?: string): Promise<NextDepartureTimesResponse>
+
+    /**
+     * Get matching bus stops for search query
+     * @param {string} query search query
+     * @param {string} auth authentication to use for the request
+     * @returns list of bus stops that match the search query
+     */
+    export async function findBusStops(query: string, auth: string): Promise<FoundStop[]>
 }

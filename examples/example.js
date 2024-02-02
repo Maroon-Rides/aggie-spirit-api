@@ -1,5 +1,5 @@
-import { getStopEstimates, getAuthentication } from "../src/index.js";
+import { getStopEstimates, getAuthentication, findBusStops } from "../src/index.js";
 
 getAuthentication().then(async (auth) => {
-    console.log(await getStopEstimates("0400", new Date(), auth))
+    console.log(await findBusStops("zach", auth))
 })

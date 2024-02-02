@@ -1,4 +1,3 @@
-import { getAuthentication } from "./connection.js"
 import moment from "moment"
 
 /**
