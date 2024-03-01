@@ -18,6 +18,8 @@ export {
 } from "./home.js"
 
 export {
-    findBusStops
+    findBusStops,
+    findLocations,
+    getTripPlan
 } from "./route-planning.js"
 
