@@ -26,7 +26,10 @@ export async function findLocations(query, gAuth) {
     const params = {
         input: query,
         key: gAuth,
-        types: 'geocode'
+        types: "geocode",
+        strictBounds: "true",
+        location: "30.6185,-96.3365",
+        radius: "50000"
     };
 
     // convert params to query string without URLSearchParams
