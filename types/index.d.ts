@@ -291,8 +291,8 @@ declare module 'aggie-spirit-api' {
     export interface OptionDetail {
         agencies: {
             agencyName: string
-            agencyUrl: string
-        }
+            agencyUrl: string?
+        }[]
         copyrights: string
         endTime: number
         endTimeText: string
