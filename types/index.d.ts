@@ -312,15 +312,22 @@ declare module 'aggie-spirit-api' {
         warning: string[]
     }
 
+    export interface OptionPosition {
+        optionIndex: number
+        optionSummary: string
+        topPosition: number
+    }
+
     export interface TripPlan {
         blocks: PlanBlock[]
         chartHeight: number
-        chartLinePositions: ChartLinePosition[]
+        chartLinePositions: ChartLinePosition[] | null
         headerHeight: number
         optionBlocks: OptionBlock[]
         optionDetails: OptionDetail[] 
         optionHeight: number
-        optionPositions: number
+        optionPositions: OptionPosition[]
+        resultCount: number
     }
 
 
