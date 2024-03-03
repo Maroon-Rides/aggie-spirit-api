@@ -93,4 +93,6 @@ export async function getTripPlan(origin, destination, arriveTime, departTime, a
             "Content-Type": "application/json"
         }
     })
+
+    return await res.json()
 }
