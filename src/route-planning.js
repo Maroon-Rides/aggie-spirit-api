@@ -74,8 +74,8 @@ export async function getTripPlan(origin, destination, arriveTime, departTime, a
         destinationFavourited: false,
         destinationGeolocation: false,
 
-        arriveTime: arriveTime && arriveTime.getTime() / 1000,
-        departTime: departTime && departTime.getTime() / 1000,
+        arriveTime: arriveTime && parseInt(arriveTime.getTime() / 1000),
+        departTime: departTime && parseInt(departTime.getTime() / 1000),
         isOriginStopCodeValid: true,
         isDestinationStopCodeValid: true,
         lang: null
