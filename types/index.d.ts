@@ -309,7 +309,7 @@ declare module 'aggie-spirit-api' {
         totalTime: string
         totalWalkingDistance: string
         totalWalkingTime: string
-        warning: string[]
+        warnings: string[]
     }
 
     export interface OptionPosition {
