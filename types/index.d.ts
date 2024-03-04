@@ -274,7 +274,7 @@ declare module 'aggie-spirit-api' {
         className: string
         duration: string
         iconClassName: string | null
-        instructions: string
+        instruction: string
         latitude: number
         longitude: number
         polyline: string
