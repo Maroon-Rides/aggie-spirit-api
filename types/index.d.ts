@@ -205,7 +205,132 @@ declare module 'aggie-spirit-api' {
         nextMaxRadius: number,
         canLoadMore: boolean
     }
+
+    export interface FoundStop {
+        stopCode: string
+        stopName: string
+        longitude: number
+        latitude: number
+    }
+
+    export interface MatchedSubstring {
+        length: number
+        offset: number
+    }
+
+    export interface LocationTerms {
+        offset: number
+        value: string
+    }
+
+    export interface FoundLocation {
+        description: string
+        matchedSubstrings: MatchedSubstring[]
+        place_id: string
+        reference: string
+        structured_formatting: {
+            main_text: string
+            main_text_matched_substrings: MatchedSubstring[]
+            secondary_text: string
+        }
+        terms: LocationTerms[]
+        types: string[]
+    }
     
+    export interface Endpoint {
+        title: string
+        title: string
+        subtitle: string
+        lat?: number
+        long?: number
+        stopCode?: string
+        placeId?: string
+    }
+
+    export interface PlanBlock {
+        className: string
+        iconString: string
+        leftPosition: number
+        routeShortName: string
+        stepType: number
+        topPosition: number
+        width: number
+    }
+
+    export interface ChartLinePosition {
+        leftPosition: number
+        timeLabel: string
+    }
+
+    export interface OptionBlock {
+        leavingIn: string
+        leftPosition: number
+        topPosition: number
+        totalMinute: string
+        width: number
+    }
+
+    export interface InstructionStep {
+        className: string
+        duration: string
+        iconClassName: string | null
+        instruction: string
+        latitude: number
+        longitude: number
+        polyline: string
+        routeShortName: string | null
+        startTime: string
+        stepType: number
+        walkingInstructions: {
+            index: number
+            instruction: string
+            polyline: string
+        }[]
+    }
+    
+    export interface OptionDetail {
+        agencies: {
+            agencyName: string
+            agencyUrl: string | undefined
+        }[]
+        copyrights: string
+        endTime: number
+        endTimeText: string
+        instructions: InstructionStep[]
+        mapBounds: {
+            neLatitude: number
+            neLongitude: number
+            swLatitude: number
+            swLongitude: number
+        }
+        optionIndex: number
+        startTime: number
+        startTimeText: string
+        totalTime: string
+        totalWalkingDistance: string
+        totalWalkingTime: string
+        warnings: string[]
+    }
+
+    export interface OptionPosition {
+        optionIndex: number
+        optionSummary: string
+        topPosition: number
+    }
+
+    export interface TripPlan {
+        blocks: PlanBlock[]
+        chartHeight: number
+        chartLinePositions: ChartLinePosition[] | null
+        headerHeight: number
+        optionBlocks: OptionBlock[]
+        optionDetails: OptionDetail[] 
+        optionHeight: number
+        optionPositions: OptionPosition[]
+        resultCount: number
+    }
+
+
     // Type Definitions: src/connection.js
     
     /**
@@ -309,4 +434,37 @@ declare module 'aggie-spirit-api' {
      * @returns list of departure times for the given stop
      */
     export function getNextDepartureTimes(routeId: string, directionIds: string[], stopCode: string, auth?: string): Promise<NextDepartureTimesResponse>
+
+    /**
+     * Get matching bus stops for search query
+     * @param {string} query search query
+     * @param {string} auth authentication to use for the request
+     * @returns list of bus stops that match the search query
+     */
+    export async function findBusStops(query: string, auth: string): Promise<FoundStop[]>
+
+    /**
+     * Get matching locations for search query
+     * @param {string} query search query
+     * @param {string} gAuth google api authentication to use for the request
+     * @returns list of locations that match the search query
+     */
+    export async function findLocations(query: string, gAuth: string): Promise<FoundLocation[]>
+
+    /**
+     * Get matching bus stops for search query
+     * @param {Endpoint} origin search query
+     * @param {Endpoint} destination search query
+     * @param {Date?} arriveTime time to arrive at destination
+     * @param {Date?} departTime time to depart from origin
+     * @returns trip plan for the given origin and destination
+     */
+    export async function getTripPlan(
+                                        origin: Endpoint, 
+                                        destination: Endpoint, 
+                                        arriveTime?: Date, 
+                                        departTime?: Date, 
+                                        auth: string
+                                    ): Promise<TripPlan>
+
 }

@@ -1,6 +1,6 @@
 {
   "name": "aggie-spirit-api",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "description": "JS implementation of the Texas A&M Bus API",
   "main": "src/index.js",
   "files": [

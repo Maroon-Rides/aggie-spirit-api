@@ -16,3 +16,10 @@ export {
     getStopSchedules,
     getStopEstimates
 } from "./home.js"
+
+export {
+    findBusStops,
+    findLocations,
+    getTripPlan
+} from "./route-planning.js"
+
