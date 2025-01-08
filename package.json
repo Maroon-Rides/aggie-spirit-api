@@ -2,15 +2,12 @@
   "name": "aggie-spirit-api",
   "version": "1.1.0",
   "description": "JS implementation of the Texas A&M Bus API",
-  "main": "src/index.js",
-  "files": [
-    "src",
-    "types"
-  ],
+  "main": "dist/index.js",
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "example": "node examples/example.js"
+    "example": "node examples/example.js",
+    "build": "tsc"
   },
   "repository": {
     "type": "git",
@@ -25,5 +22,11 @@
   "dependencies": {
     "moment": "^2.29.4"
   },
-  "types": "types/index.d.ts"
+  "devDependencies": {
+    "typescript": "^5.7.3"
+  },
+  "types": "dist/index.d.ts",
+  "files": [
+    "/dist"
+  ]
 }

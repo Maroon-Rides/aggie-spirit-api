@@ -1,11 +1,12 @@
 import moment from "moment"
+import { NearbyRoutesResponse, StopEstimatesResponse, StopSchedulesResponse, TimetableRoute } from "./types"
 
 /**
  * Get the currently active routes
  * @param {string} auth Authentication to use for the request
  * @returns {string[]} list of route names ("01", "04", etc.)
  */
-export async function getActiveRoutes(auth) {
+export async function getActiveRoutes(auth: string): Promise<string[]> {
     var res = await fetch("https://aggiespirit.ts.tamu.edu/Home/GetActiveRoutes", {
         method: "POST",
         headers: {
@@ -26,7 +27,14 @@ export async function getActiveRoutes(auth) {
  * @param {string} auth authentication to use for the request
  * @returns list of routes that satisy given constraints
  */
-export async function getNearbyRoutes(favRoutes=[], latitude=30.6138, longitude=-96.3395, maxRadius=null, minRadius=null, auth) {
+export async function getNearbyRoutes(
+    favRoutes=[] as string[], 
+    latitude=30.6138, 
+    longitude=-96.3395, 
+    maxRadius=20, 
+    minRadius=1, 
+    auth: string
+): Promise<NearbyRoutesResponse> {
     var payload = {
         "latitude": latitude,
         "longitude": longitude,
@@ -52,7 +60,7 @@ export async function getNearbyRoutes(favRoutes=[], latitude=30.6138, longitude=
  * @param {string} auth authentication to use for the request
  * @returns list of stop times for the given routes
  */
-export async function getNextStopTimes(routes, auth) {
+export async function getNextStopTimes(routes: string[], auth: string): Promise<TimetableRoute[]> {
     var payload = {
         routes: routes
     }
@@ -76,12 +84,12 @@ export async function getNextStopTimes(routes, auth) {
  * @param {string} auth authentication to use for the request
  * @returns list of schedules for the given stops
  */
-export async function getStopSchedules(stopCode, date, auth) {
-    date = moment(date).format("YYYY-MM-DD")
+export async function getStopSchedules(stopCode: string, date: Date, auth: string): Promise<StopSchedulesResponse> {
+    const date_str = moment(date).format("YYYY-MM-DD")
 
     var payload = {
         stopCode: stopCode,
-        date: date
+        date: date_str
     }
 
     var res = await fetch("https://aggiespirit.ts.tamu.edu/Schedule/GetStopSchedules", {
@@ -103,12 +111,12 @@ export async function getStopSchedules(stopCode, date, auth) {
  * @param {string} auth authentication to use for the request
  * @returns list of schedules for the given stops
  */
-export async function getStopEstimates(stopCode, date, auth) {
-    date = moment(date).format("YYYY-MM-DD")
+export async function getStopEstimates(stopCode: string, date: Date, auth: string): Promise<StopEstimatesResponse> {
+    const date_str = moment(date).format("YYYY-MM-DD")
 
     var payload = {
         stopCode: stopCode,
-        date: date
+        date: date_str
     }
 
     var res = await fetch("https://aggiespirit.ts.tamu.edu/Schedule/GetStopEstimates", {

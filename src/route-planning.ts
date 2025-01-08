@@ -1,10 +1,12 @@
+import { Endpoint, FoundLocation, FoundStop, TripPlan } from "./types";
+
 /**
  * Get matching bus stops for search query
  * @param {string} query search query
  * @param {string} auth authentication to use for the request
  * @returns list of bus stops that match the search query
  */
-export async function findBusStops(query, auth) {
+export async function findBusStops(query: string, auth: string): Promise<FoundStop[]> {
     var res = await fetch(`https://aggiespirit.ts.tamu.edu/Home/FindBusStops?searchTerm=${encodeURIComponent(query)}`, {
         headers: {
             "cookie": auth,
@@ -21,7 +23,7 @@ export async function findBusStops(query, auth) {
  * @param {string} gAuth google api authentication to use for the request
  * @returns list of locations that match the search query
  */
-export async function findLocations(query, gAuth) {
+export async function findLocations(query: string, gAuth: string): Promise<FoundLocation[]> {
     const url = 'https://maps.googleapis.com/maps/api/place/autocomplete/json';
     const params = {
         input: query,
@@ -52,7 +54,13 @@ export async function findLocations(query, gAuth) {
  * @param {Date?} departTime time to depart from origin
  * @returns trip plan for the given origin and destination
  */
-export async function getTripPlan(origin, destination, arriveTime, departTime, auth) {
+export async function getTripPlan(
+    origin: Endpoint, 
+    destination: Endpoint, 
+    arriveTime: Date, 
+    departTime: Date, 
+    auth: string
+): Promise<TripPlan> {
     const query = {
         origin: origin.title,
         originName1: origin.title,
@@ -74,8 +82,8 @@ export async function getTripPlan(origin, destination, arriveTime, departTime, a
         destinationFavourited: false,
         destinationGeolocation: false,
 
-        arriveTime: arriveTime && parseInt(arriveTime.getTime() / 1000),
-        departTime: departTime && parseInt(departTime.getTime() / 1000),
+        arriveTime: arriveTime && (arriveTime.getTime() / 1000).toFixed(0),
+        departTime: departTime && (departTime.getTime() / 1000).toFixed(0),
         isOriginStopCodeValid: true,
         isDestinationStopCodeValid: true,
         lang: null
