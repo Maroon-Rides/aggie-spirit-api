@@ -14,14 +14,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Reveille-Rides/aggie-spirit-api.git"
+    "url": "git+https://github.com/Maroon-Rides/aggie-spirit-api.git"
   },
-  "author": "Reveille-Rides",
+  "author": "Maroon-Rides",
   "license": "Apache-2.0",
   "bugs": {
-    "url": "https://github.com/Reveille-Rides/aggie-spirit-api/issues"
+    "url": "https://github.com/Maroon-Rides/aggie-spirit-api/issues"
   },
-  "homepage": "https://github.com/Reveille-Rides/aggie-spirit-api#readme",
+  "homepage": "https://github.com/Maroon-Rides/aggie-spirit-api#readme",
   "dependencies": {
     "moment": "^2.29.4"
   },
