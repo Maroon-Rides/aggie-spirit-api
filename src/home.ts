@@ -1,16 +1,16 @@
 import moment from "moment"
-import { NearbyRoutesResponse, StopEstimatesResponse, StopSchedulesResponse, TimetableRoute } from "./types"
+import { NearbyRoutesResponse, StopEstimatesResponse, StopSchedulesResponse, TimetableRoute, Auth } from "./types"
 
 /**
  * Get the currently active routes
  * @param {string} auth Authentication to use for the request
  * @returns {string[]} list of route names ("01", "04", etc.)
  */
-export async function getActiveRoutes(auth: string): Promise<string[]> {
+export async function getActiveRoutes(auth: Auth): Promise<string[]> {
     var res = await fetch("https://aggiespirit.ts.tamu.edu/Home/GetActiveRoutes", {
         method: "POST",
         headers: {
-            "cookie": auth
+            ...auth,
         }
     })
     
@@ -33,7 +33,7 @@ export async function getNearbyRoutes(
     longitude=-96.3395, 
     maxRadius=20, 
     minRadius=1, 
-    auth: string
+    auth: Auth
 ): Promise<NearbyRoutesResponse> {
     var payload = {
         "latitude": latitude,
@@ -46,7 +46,7 @@ export async function getNearbyRoutes(
     var res = await fetch("https://aggiespirit.ts.tamu.edu/Home/GetNearbyRoutes", {
         method: "POST",
         headers: {
-            "cookie": auth,
+            ...auth,
             "Content-Type": "application/json"
         },
         body: JSON.stringify(payload)
@@ -60,7 +60,7 @@ export async function getNearbyRoutes(
  * @param {string} auth authentication to use for the request
  * @returns list of stop times for the given routes
  */
-export async function getNextStopTimes(routes: string[], auth: string): Promise<TimetableRoute[]> {
+export async function getNextStopTimes(routes: string[], auth: Auth): Promise<TimetableRoute[]> {
     var payload = {
         routes: routes
     }
@@ -68,7 +68,7 @@ export async function getNextStopTimes(routes: string[], auth: string): Promise<
     var res = await fetch("https://aggiespirit.ts.tamu.edu/Home/GetNextStopTimes", {
         method: "POST",
         headers: {
-            "cookie": auth,
+            ...auth,
             "Content-Type": "application/json"
         },
         body: JSON.stringify(payload)
@@ -84,7 +84,7 @@ export async function getNextStopTimes(routes: string[], auth: string): Promise<
  * @param {string} auth authentication to use for the request
  * @returns list of schedules for the given stops
  */
-export async function getStopSchedules(stopCode: string, date: Date, auth: string): Promise<StopSchedulesResponse> {
+export async function getStopSchedules(stopCode: string, date: Date, auth: Auth): Promise<StopSchedulesResponse> {
     const date_str = moment(date).format("YYYY-MM-DD")
 
     var payload = {
@@ -95,7 +95,7 @@ export async function getStopSchedules(stopCode: string, date: Date, auth: strin
     var res = await fetch("https://aggiespirit.ts.tamu.edu/Schedule/GetStopSchedules", {
         method: "POST",
         headers: {
-            "cookie": auth,
+            ...auth,
             "Content-Type": "application/json"
         },
         body: JSON.stringify(payload)
@@ -111,7 +111,7 @@ export async function getStopSchedules(stopCode: string, date: Date, auth: strin
  * @param {string} auth authentication to use for the request
  * @returns list of schedules for the given stops
  */
-export async function getStopEstimates(stopCode: string, date: Date, auth: string): Promise<StopEstimatesResponse> {
+export async function getStopEstimates(stopCode: string, date: Date, auth: Auth): Promise<StopEstimatesResponse> {
     const date_str = moment(date).format("YYYY-MM-DD")
 
     var payload = {
@@ -122,7 +122,7 @@ export async function getStopEstimates(stopCode: string, date: Date, auth: strin
     var res = await fetch("https://aggiespirit.ts.tamu.edu/Schedule/GetStopEstimates", {
         method: "POST",
         headers: {
-            "cookie": auth,
+            ...auth,
             "Content-Type": "application/json"
         },
         body: JSON.stringify(payload)

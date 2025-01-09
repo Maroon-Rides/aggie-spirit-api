@@ -327,3 +327,5 @@ export interface TripPlan {
     optionPositions: OptionPosition[]
     resultCount: number
 }
+
+export type Auth = { [key: string]: string }

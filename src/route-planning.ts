@@ -1,4 +1,4 @@
-import { Endpoint, FoundLocation, FoundStop, TripPlan } from "./types";
+import { Auth, Endpoint, FoundLocation, FoundStop, TripPlan } from "./types";
 
 /**
  * Get matching bus stops for search query
@@ -6,44 +6,15 @@ import { Endpoint, FoundLocation, FoundStop, TripPlan } from "./types";
  * @param {string} auth authentication to use for the request
  * @returns list of bus stops that match the search query
  */
-export async function findBusStops(query: string, auth: string): Promise<FoundStop[]> {
+export async function findBusStops(query: string, auth: Auth): Promise<FoundStop[]> {
     var res = await fetch(`https://aggiespirit.ts.tamu.edu/Home/FindBusStops?searchTerm=${encodeURIComponent(query)}`, {
         headers: {
-            "cookie": auth,
+            ...auth,
             "Accept": "application/json, text/javascript, */*; q=0.01"
         }
     })
     
     return await res.json()
-}
-
-/**
- * Get matching locations for search query
- * @param {string} query search query
- * @param {string} gAuth google api authentication to use for the request
- * @returns list of locations that match the search query
- */
-export async function findLocations(query: string, gAuth: string): Promise<FoundLocation[]> {
-    const url = 'https://maps.googleapis.com/maps/api/place/autocomplete/json';
-    const params = {
-        input: query,
-        key: gAuth,
-        types: "geocode",
-        strictBounds: "true",
-        location: "30.6185,-96.3365",
-        radius: "50000"
-    };
-
-    // convert params to query string without URLSearchParams
-    let queryString = '';
-    for (const key in params) {
-        queryString += `${key}=${params[key]}&`;
-    }
-
-    const response = await fetch(url + '?' + queryString);
-    const data = await response.json();
-
-    return data.predictions;  
 }
 
 /**
@@ -59,7 +30,7 @@ export async function getTripPlan(
     destination: Endpoint, 
     arriveTime: Date, 
     departTime: Date, 
-    auth: string
+    auth: Auth
 ): Promise<TripPlan> {
     const query = {
         origin: origin.title,
@@ -90,13 +61,16 @@ export async function getTripPlan(
     }
 
     const queryStr = Object.keys(query).map(key => {
-        if (!query[key]) return "";
-        return `${key}=${query[key]}`;
+        // @ts-ignore: this is a valid check
+        const val = query[key];
+        
+        if (!val) return "";
+        return `${key}=${val}`;
     }).join('&');
     
     var res = await fetch(`https://aggiespirit.ts.tamu.edu/TripPlanner/GetTripPlan?${queryStr}`, {
         headers: {
-            "Cookie": auth,
+            ...auth,
             "Accept": "application/json, text/javascript, */*; q=0.01",
             "Content-Type": "application/json"
         }

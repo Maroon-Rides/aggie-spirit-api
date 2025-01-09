@@ -1,15 +1,15 @@
-import { BaseDataResponse, NextDepartureTimesResponse, PatternPathsResponse, VehicleResponse } from "./types";
+import { BaseDataResponse, NextDepartureTimesResponse, PatternPathsResponse, VehicleResponse, Auth } from "./types";
 
 /**
  * Get the initial data for the map
  * @param {string} auth authentication to use for the request
  * @returns base data for the map
  */
-export async function getBaseData(auth: string): Promise<BaseDataResponse> {
+export async function getBaseData(auth: Auth): Promise<BaseDataResponse> {
     var res = await fetch("https://aggiespirit.ts.tamu.edu/RouteMap/GetBaseData", {
         method: "POST",
         headers: {
-            "cookie": auth
+            ...auth,
         }
     })
     
@@ -22,14 +22,14 @@ export async function getBaseData(auth: string): Promise<BaseDataResponse> {
  * @param {string} auth authentication to use for the request
  * @returns route info for the given route(s)
  */
-export async function getPatternPaths(patternIds: string[], auth: string): Promise<PatternPathsResponse[]> {
+export async function getPatternPaths(patternIds: string[], auth: Auth): Promise<PatternPathsResponse[]> {
     // Constructing the body data
     const bodyData = patternIds.map(id => `routeKeys%5B%5D=${encodeURIComponent(id)}`).join('&');
 
     var res = await fetch("https://aggiespirit.ts.tamu.edu/RouteMap/GetPatternPaths", {
         method: "POST",
         headers: {
-            "cookie": auth,
+            ...auth,
             "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
         },
         body: bodyData
@@ -44,14 +44,14 @@ export async function getPatternPaths(patternIds: string[], auth: string): Promi
  * @param {*} auth authentication to use for the request
  * @returns list of active vehicles on the given route(s)
  */
-export async function getVehicles(patternIds: string[], auth: string): Promise<VehicleResponse[]> {
+export async function getVehicles(patternIds: string[], auth: Auth): Promise<VehicleResponse[]> {
     const bodyData = patternIds.map(id => `routeKeys%5B%5D=${encodeURIComponent(id)}`).join('&');
 
 
     var res = await fetch("https://aggiespirit.ts.tamu.edu/RouteMap/GetPatternPaths", {
         method: "POST",
         headers: {
-            "cookie": auth,
+            ...auth,
             "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
         },
         body: bodyData
@@ -69,7 +69,7 @@ export async function getVehicles(patternIds: string[], auth: string): Promise<V
  * @returns list of departure times for the given stop
  */
 
-export async function getNextDepartureTimes(routeId: string, directionIds: string[], stopCode: string, auth: string): Promise<NextDepartureTimesResponse> {
+export async function getNextDepartureTimes(routeId: string, directionIds: string[], stopCode: string, auth: Auth): Promise<NextDepartureTimesResponse> {
     var bodyData: string[] = []
     directionIds.forEach((directionId, i) => {
         bodyData.push(`routeDirectionKeys%5B${i}%5D%5BrouteKey%5D=${encodeURIComponent(routeId)}&routeDirectionKeys%5B${i}%5D%5BdirectionKey%5D=${encodeURIComponent(directionId)}&stopCode=${encodeURIComponent(stopCode)}`)
@@ -80,7 +80,7 @@ export async function getNextDepartureTimes(routeId: string, directionIds: strin
     var res = await fetch("https://aggiespirit.ts.tamu.edu/RouteMap/GetNextDepartTimes", {
         method: "POST",
         headers: {
-            "cookie": auth,
+            ...auth,
             "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"
         },
         body: bodyString

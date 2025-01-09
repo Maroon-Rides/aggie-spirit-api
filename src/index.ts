@@ -1,13 +1,9 @@
 export {
-    getAuthentication
-} from "./connection.js"
-
-export {
     getBaseData,
     getPatternPaths,
     getVehicles,
     getNextDepartureTimes
-} from "./map.js"
+} from "./map"
 
 export {
     getActiveRoutes,
@@ -15,11 +11,10 @@ export {
     getNextStopTimes,
     getStopSchedules,
     getStopEstimates
-} from "./home.js"
+} from "./home"
 
 export {
     findBusStops,
-    findLocations,
     getTripPlan
-} from "./route-planning.js"
+} from "./route-planning"
 
