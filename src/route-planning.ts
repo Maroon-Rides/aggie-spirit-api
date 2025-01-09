@@ -25,12 +25,13 @@ export async function findBusStops(query: string, auth: Auth): Promise<FoundStop
  * @param {Date?} departTime time to depart from origin
  * @returns trip plan for the given origin and destination
  */
+
 export async function getTripPlan(
+    auth: Auth,
     origin: Endpoint, 
     destination: Endpoint, 
-    arriveTime: Date, 
-    departTime: Date, 
-    auth: Auth
+    arriveTime?: Date, 
+    departTime?: Date
 ): Promise<TripPlan> {
     const query = {
         origin: origin.title,
