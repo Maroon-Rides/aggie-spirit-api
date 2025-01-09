@@ -30,6 +30,7 @@ export async function getTripPlan(
     auth: Auth,
     origin: Endpoint, 
     destination: Endpoint, 
+    routeOption: number,
     arriveTime?: Date, 
     departTime?: Date
 ): Promise<TripPlan> {
@@ -56,6 +57,7 @@ export async function getTripPlan(
 
         arriveTime: arriveTime && (arriveTime.getTime() / 1000).toFixed(0),
         departTime: departTime && (departTime.getTime() / 1000).toFixed(0),
+        routeOption: routeOption,
         isOriginStopCodeValid: true,
         isDestinationStopCodeValid: true,
         lang: null
