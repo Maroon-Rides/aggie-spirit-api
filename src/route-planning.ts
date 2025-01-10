@@ -63,21 +63,14 @@ export async function getTripPlan(
         lang: null
     }
 
-    const queryStr = Object.keys(query).map(key => {
-        // @ts-ignore: this is a valid check
-        const val = query[key];
-        
-        if (!val) return "";
-        return `${key}=${val}`;
-    }).join('&');
-    
-    var res = await fetch(`https://aggiespirit.ts.tamu.edu/TripPlanner/GetTripPlan?${queryStr}`, {
+    var res = await fetch(`https://aggiespirit.ts.tamu.edu/TripPlanner/GetTripPlan`, {
+        method: "POST",
         headers: {
             ...auth,
             "Accept": "application/json, text/javascript, */*; q=0.01",
             "Content-Type": "application/json"
-        }
-    })
-
-    return await res.json()
+        },
+        body: JSON.stringify(query)
+    });
+    return await res.json();
 }
